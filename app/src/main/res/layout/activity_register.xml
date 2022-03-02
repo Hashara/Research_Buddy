@@ -2,93 +2,151 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         app:srcCompat="@mipmap/ic_logo" />
 
     <RelativeLayout
+        android:id="@+id/formFields"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/formFields"
         android:layout_below="@+id/logo"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="50dp">
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp">
 
-        <EditText
-            android:id="@+id/editTxtFirstName"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/first_name" />
+            android:layout_marginBottom="10dp"
+            android:hint="@string/first_name">
 
-        <EditText
-            android:id="@+id/editTxtLastName"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editTxtFirstName"
-            android:hint="@string/last_name" />
+            android:layout_below="@+id/txtLayoutFirstName"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/last_name">
 
-        <EditText
-            android:id="@+id/editTxtEmail"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editTxtLastName"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:layout_below="@+id/txtLayoutLastName"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLayoutEmail"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLayoutPassword"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/confirm_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/txtSelectRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/select_role"
-            android:id="@+id/txtSelectRole"
-            android:layout_below="@+id/editTxtEmail"
-            android:layout_marginTop="20dp"/>
+            android:layout_below="@+id/txtLayoutConfirmPassword"
+            android:layout_marginTop="20dp"
+            android:text="@string/select_role" />
+
 
         <RadioGroup
-            android:id="@+id/checkList"
+            android:id="@+id/radioGroupSelectRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtSelectRole"
-            >
+            android:checkedButton="@id/radioButtonResearcher"
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <RadioButton
+                android:id="@+id/radioButtonResearcher"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <RadioButton
-                    android:id="@+id/radioButtonResearcher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/researcher"
-                    android:layout_toEndOf="@+id/txtSelectRole"
-                    android:layout_marginRight="5dp"
-                    />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="@string/researcher" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonParticipant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/radioButtonResearcher"
-                    android:text="@string/participant" />
-            </LinearLayout>
-
+            <RadioButton
+                android:id="@+id/radioButtonParticipant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/radioButtonResearcher"
+                android:text="@string/participant" />
 
 
         </RadioGroup>
 
-        <Button
+        <TextView
+            android:id="@+id/txtDirectLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/checkList"
-            android:text="Register"
-            android:layout_centerHorizontal="true"/>
+            android:layout_below="@+id/radioGroupSelectRole"
+            android:text="@string/already_have_an_account" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDirectLogin"
+            android:layout_centerHorizontal="true"
+            android:text="@string/register" />
     </RelativeLayout>
 
 </RelativeLayout>
