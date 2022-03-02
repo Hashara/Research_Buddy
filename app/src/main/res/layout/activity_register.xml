@@ -84,27 +84,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkedButton="@id/radioButtonResearcher"
-            android:layout_below="@+id/txtSelectRole">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:layout_below="@+id/txtSelectRole"
+            android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radioButtonResearcher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:layout_toEndOf="@+id/txtSelectRole"
                     android:text="@string/researcher" />
 
                 <RadioButton
                     android:id="@+id/radioButtonParticipant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/radioButtonResearcher"
+                    android:layout_toRightOf = "@+id/radioButtonResearcher"
                     android:text="@string/participant" />
-            </LinearLayout>
 
 
         </RadioGroup>
