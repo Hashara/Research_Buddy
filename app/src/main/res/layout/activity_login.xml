@@ -53,11 +53,18 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/txtDirectRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLayoutPassword"
+            android:text="@string/don_t_have_an_account_register_here" />
+
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtLayoutPassword"
+            android:layout_below="@+id/txtDirectRegister"
             android:layout_centerHorizontal="true"
             android:text="@string/login" />
     </RelativeLayout>

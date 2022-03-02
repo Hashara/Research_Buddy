@@ -35,7 +35,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +50,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +65,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +80,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +95,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,32 +112,39 @@
             android:id="@+id/radioGroupSelectRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/radioButtonResearcher"
             android:layout_below="@+id/txtSelectRole"
+            android:checkedButton="@id/radioButtonResearcher"
             android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radioButtonResearcher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/researcher" />
+            <RadioButton
+                android:id="@+id/radioButtonResearcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="@string/researcher" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonParticipant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf = "@+id/radioButtonResearcher"
-                    android:text="@string/participant" />
+            <RadioButton
+                android:id="@+id/radioButtonParticipant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/radioButtonResearcher"
+                android:text="@string/participant" />
 
 
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/txtDirectLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radioGroupSelectRole"
+            android:text="@string/already_have_an_account" />
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroupSelectRole"
+            android:layout_below="@+id/txtDirectLogin"
             android:layout_centerHorizontal="true"
             android:text="@string/register" />
     </RelativeLayout>

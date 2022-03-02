@@ -14,6 +14,8 @@
     <string name="error_msg_last_name_empty">Last name is empty</string>
     <string name="error_msg_email_empty">Email is empty</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="error_msg_passsword_constraints">Password must have Minimum 6 and at least one uppercase letter, one lowercase letter, one number and one special character:</string>
+    <string name="error_msg_password_constraints">Password must have Minimum 6 and at least one uppercase letter, one lowercase letter, one number and one special character:</string>
     <string name="error_msg_password_not_match">Password should match</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="don_t_have_an_account_register_here">Don\'t have an account? register here!</string>
 </resources>

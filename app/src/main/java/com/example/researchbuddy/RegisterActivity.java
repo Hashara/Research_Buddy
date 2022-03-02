@@ -3,8 +3,9 @@ package com.example.researchbuddy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.service.autofill.RegexValidator;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -25,8 +26,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Objects;
-
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
@@ -34,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioGroup radioGroupSelectRole;
     private Button btnRegister;
     private RelativeLayout parent;
+    private TextView txtDirectLogin;
 
     private AwesomeValidation awesomeValidation;
 
@@ -45,10 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         initViews();
-
         validateData();
-
         btnOnClick();
+        onClickDirectLogin();
     }
 
     private void initViews() {
@@ -60,6 +59,9 @@ public class RegisterActivity extends AppCompatActivity {
         txtLayoutPassword = findViewById(R.id.txtLayoutPassword);
         txtLayoutConfirmPassword = findViewById(R.id.txtLayoutConfirmPassword);
 
+        txtDirectLogin = findViewById(R.id.txtDirectLogin);
+        txtDirectLogin.setMovementMethod(LinkMovementMethod.getInstance());
+
         radioGroupSelectRole = findViewById(R.id.radioGroupSelectRole);
 
         btnRegister = findViewById(R.id.btnRegister);
@@ -69,9 +71,18 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    private void initRegister() {
-        Log.d(TAG, "initRegister: started");
+    private void onClickDirectLogin() {
+        Log.d(TAG, "Directing to login");
+        txtDirectLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void validateData() {
@@ -80,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
         awesomeValidation.addValidation(txtLayoutFirstName.getEditText(), RegexTemplate.NOT_EMPTY, getString(R.string.error_msg_first_name_empty));
         awesomeValidation.addValidation(txtLayoutLastName.getEditText(), RegexTemplate.NOT_EMPTY, getString(R.string.error_msg_last_name_empty));
         awesomeValidation.addValidation(txtLayoutEmail.getEditText(), Patterns.EMAIL_ADDRESS, getString(R.string.error_msg_email_empty));
-        awesomeValidation.addValidation(txtLayoutPassword.getEditText(), "^(?=.*[0-9])(?=.*[~`!@#$%^&*])[a-zA-Z0-9~`!@#$%^&*]{6,}$", getString(R.string.error_msg_passsword_constraints));
+        awesomeValidation.addValidation(txtLayoutPassword.getEditText(), "^(?=.*[0-9])(?=.*[~`!@#$%^&*])[a-zA-Z0-9~`!@#$%^&*]{6,}$", getString(R.string.error_msg_password_constraints));
         awesomeValidation.addValidation(txtLayoutConfirmPassword.getEditText(), new SimpleCustomValidation() {
             @Override
             public boolean compare(String s) {
@@ -102,8 +113,6 @@ public class RegisterActivity extends AppCompatActivity {
                             txtLayoutLastName.getEditText().getText().toString(),
                             ((RadioButton) findViewById(radioGroupSelectRole.getCheckedRadioButtonId())).getText().toString());
 
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Invalid", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,6 +127,18 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d(TAG, "Register successfully");
                     FirebaseHelper firebaseHelper = new FirebaseHelper();
                     firebaseHelper.onCreteUser(firstName, lastName, role);
+
+                    if (role.equals(getString(R.string.researcher))) {
+                        Intent intent = new Intent(RegisterActivity.this, ResearcherHomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } else {
+                        // todo: add participant home
+                        Intent intent = new Intent(RegisterActivity.this, ResearcherHomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+
                 } else {
                     Log.d(TAG, "Register unsuccessful");
                 }
