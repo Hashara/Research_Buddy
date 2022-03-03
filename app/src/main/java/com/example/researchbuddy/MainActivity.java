@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
         getSupportActionBar().hide();
         ImageView image = findViewById(R.id.imageView);
         Animation animSideSlide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.side_slide);

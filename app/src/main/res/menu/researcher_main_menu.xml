@@ -6,7 +6,6 @@
         android:id="@+id/action_add_project"
         android:icon="@drawable/ic_add"
         android:title="@string/settings"
-        app:showAsAction="always"
-        android:tooltipText="Add new project" />
+        app:showAsAction="always" />
 
 </menu>
