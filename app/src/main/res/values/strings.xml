@@ -18,4 +18,5 @@
     <string name="error_msg_password_not_match">Password should match</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="don_t_have_an_account_register_here">Don\'t have an account? register here!</string>
+    <string name="settings">Settings</string>
 </resources>
