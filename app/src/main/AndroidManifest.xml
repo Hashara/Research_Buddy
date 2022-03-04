@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
         <activity
-            android:name=".ResearcherHomeActivity"
+            android:name=".component.researcher.ResearcherHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".component.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".component.auth.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
