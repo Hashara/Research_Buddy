@@ -20,8 +20,10 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.component.participant.ParticipantHomeActivity;
 import com.example.researchbuddy.component.researcher.ResearcherHomeActivity;
-import com.example.researchbuddy.db.FirebaseHelper;
+import com.example.researchbuddy.db.UserDocument;
+import com.example.researchbuddy.model.type.Role;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,9 +38,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnRegister;
     private RelativeLayout parent;
     private TextView txtDirectLogin;
+    private Role role;
 
     private AwesomeValidation awesomeValidation;
-
     private FirebaseAuth auth;
 
     @Override
@@ -50,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         validateData();
         btnOnClick();
         onClickDirectLogin();
+        onRadioButtonClick();
     }
 
     private void initViews() {
@@ -70,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         parent = findViewById(R.id.parent);
         auth = FirebaseAuth.getInstance();
+        role = Role.RESEARCHER;
     }
 
 
@@ -113,30 +117,45 @@ public class RegisterActivity extends AppCompatActivity {
                             txtLayoutPassword.getEditText().getText().toString(),
                             txtLayoutFirstName.getEditText().getText().toString(),
                             txtLayoutLastName.getEditText().getText().toString(),
-                            ((RadioButton) findViewById(radioGroupSelectRole.getCheckedRadioButtonId())).getText().toString());
+                            role);
 
                 }
             }
         });
     }
 
-    private void userRegister(String email, String password, String firstName, String lastName, String role) {
+    public void onRadioButtonClick() {
+        radioGroupSelectRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+                    case R.id.radioButtonParticipant:
+                        role = Role.PARTICIPANT;
+                        break;
+                    case R.id.radioButtonResearcher:
+                        role = Role.RESEARCHER;
+                        break;
+                }
+            }
+        });
+    }
+
+    private void userRegister(String email, String password, String firstName, String lastName, Role role) {
 
         auth.createUserWithEmailAndPassword(email.trim(), password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Register successfully");
-                    FirebaseHelper firebaseHelper = new FirebaseHelper();
-                    firebaseHelper.onCreteUser(firstName, lastName, role);
+                    UserDocument userDocument = new UserDocument();
+                    userDocument.onCreteUser(firstName, lastName, role);
 
                     if (role.equals(getString(R.string.researcher))) {
                         Intent intent = new Intent(RegisterActivity.this, ResearcherHomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     } else {
-                        // todo: add participant home
-                        Intent intent = new Intent(RegisterActivity.this, ResearcherHomeActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, ParticipantHomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }

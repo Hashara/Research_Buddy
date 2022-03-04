@@ -1,5 +1,6 @@
 package com.example.researchbuddy.component.auth;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,11 +14,16 @@ import android.widget.TextView;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.component.participant.ParticipantHomeActivity;
 import com.example.researchbuddy.component.researcher.ResearcherHomeActivity;
+import com.example.researchbuddy.db.UserDocument;
+import com.example.researchbuddy.model.UserModel;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -94,11 +100,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 Log.d(TAG, "Login successfully");
-                // todo: check role and direct page
-                Intent intent = new Intent(LoginActivity.this, ResearcherHomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                UserDocument userDocument = new UserDocument();
+                userDocument.checkUserRoleAndRedirect(LoginActivity.this);
             }
-        });
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // todo: add error message in UI
+                        Log.d(TAG, "get failed with ", e);
+                    }
+                });
     }
 }

@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
-import com.example.researchbuddy.model.Project;
+import com.example.researchbuddy.model.ProjectModel;
 
 import java.util.ArrayList;
 
@@ -43,14 +43,14 @@ public class ResearcherHomeActivity extends AppCompatActivity {
 
     private void addProjects() {
         Log.d(TAG, "creating project views");
-        ArrayList<Project> projects = new ArrayList<>();
+        ArrayList<ProjectModel> projects = new ArrayList<>();
 
         // todo: get project from database
-        projects.add(new Project("Demo"));
-        projects.add(new Project("Demo1"));
-        projects.add(new Project("Demo2"));
-        projects.add(new Project("Demo3"));
-        projects.add(new Project("Demo4"));
+        projects.add(new ProjectModel("Demo"));
+        projects.add(new ProjectModel("Demo1"));
+        projects.add(new ProjectModel("Demo2"));
+        projects.add(new ProjectModel("Demo3"));
+        projects.add(new ProjectModel("Demo4"));
 
         ProjectRecViewAdapter adapter = new ProjectRecViewAdapter(this);
         adapter.setProjects(projects);
