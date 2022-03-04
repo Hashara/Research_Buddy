@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
         <activity
+            android:name=".component.participant.ParticipantHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".component.researcher.ResearcherHomeActivity"
             android:exported="false" />
         <activity

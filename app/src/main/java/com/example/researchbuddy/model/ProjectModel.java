@@ -4,24 +4,24 @@ import com.example.researchbuddy.model.type.CollectionTypes;
 
 import java.util.List;
 
-public class Project {
+public class ProjectModel {
     private String projectName;
     private String projectId;
     private List<CollectionTypes> collectionTypes;
 
-    public Project(String projectName, String projectId, List<CollectionTypes> collectionTypes) {
+    public ProjectModel(String projectName, String projectId, List<CollectionTypes> collectionTypes) {
         this.projectName = projectName;
         this.projectId = projectId;
         this.collectionTypes = collectionTypes;
     }
 
-    public Project(String projectName, List<CollectionTypes> collectionTypes) {
+    public ProjectModel(String projectName, List<CollectionTypes> collectionTypes) {
         this.projectName = projectName;
         this.collectionTypes = collectionTypes;
     }
 
     // todo: remove this
-    public Project(String projectName) {
+    public ProjectModel(String projectName) {
         this.projectName = projectName;
     }
 

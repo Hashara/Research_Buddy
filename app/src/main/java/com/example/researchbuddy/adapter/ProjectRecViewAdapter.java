@@ -14,14 +14,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.researchbuddy.R;
-import com.example.researchbuddy.model.Project;
+import com.example.researchbuddy.model.ProjectModel;
 
 import java.util.ArrayList;
 
 public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAdapter.ViewHolder> {
     private static final String TAG = "ProjectRecViewAdapter";
 
-    private ArrayList<Project> projects = new ArrayList<>();
+    private ArrayList<ProjectModel> projects = new ArrayList<>();
 
     private Context context;
 
@@ -29,7 +29,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
         this.context = context;
     }
 
-    public void setProjects(ArrayList<Project> projects) {
+    public void setProjects(ArrayList<ProjectModel> projects) {
         this.projects = projects;
     }
 
