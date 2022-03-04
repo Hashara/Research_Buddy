@@ -1,4 +1,4 @@
-package com.example.researchbuddy;
+package com.example.researchbuddy.component.researcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
 import com.example.researchbuddy.model.Project;
 

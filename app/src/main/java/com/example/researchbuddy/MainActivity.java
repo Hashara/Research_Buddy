@@ -3,7 +3,6 @@ package com.example.researchbuddy;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,6 +10,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.example.researchbuddy.component.auth.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_SCREEN_TIME_OUT = 4000;

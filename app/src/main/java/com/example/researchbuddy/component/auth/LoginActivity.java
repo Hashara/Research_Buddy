@@ -1,4 +1,4 @@
-package com.example.researchbuddy;
+package com.example.researchbuddy.component.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.example.researchbuddy.R;
+import com.example.researchbuddy.component.researcher.ResearcherHomeActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;

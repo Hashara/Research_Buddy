@@ -1,4 +1,4 @@
-package com.example.researchbuddy;
+package com.example.researchbuddy.component.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,8 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.basgeekball.awesomevalidation.utility.custom.SimpleCustomValidation;
+import com.example.researchbuddy.R;
+import com.example.researchbuddy.component.researcher.ResearcherHomeActivity;
 import com.example.researchbuddy.db.FirebaseHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
