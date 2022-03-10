@@ -23,4 +23,7 @@
     <string name="questionnaires">Questionnaires</string>
     <string name="observations">Observations</string>
     <string name="logout">Logout</string>
+    <string name="create_a_form">Create a Form</string>
+    <string name="view_draft_forms">View draft forms</string>
+    <string name="call_interviews">Call Interviews</string>
 </resources>
