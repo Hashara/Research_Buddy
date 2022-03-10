@@ -8,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
-import com.example.researchbuddy.component.auth.LoginActivity;
 import com.example.researchbuddy.component.researcher.ProjectPageActivity;
 import com.example.researchbuddy.model.ProjectModel;
 
@@ -53,6 +50,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
             public void onClick(View view) {
                 // todo: get project details and passsed to project page
                 Log.d(TAG, "Clicked on " + projects.get(position).getProjectName());
+//                Intent intent = new Intent(context, ProjectPageActivity.class);
                 Intent intent = new Intent(context, ProjectPageActivity.class);
                 context.startActivity(intent);
 //                Toast.makeText(context, projects.get(position).getProjectName() + " selected", Toast.LENGTH_SHORT).show();

@@ -20,10 +20,15 @@
     <string name="don_t_have_an_account_register_here">Don\'t have an account? register here!</string>
     <string name="settings">Settings</string>
     <string name="general">General</string>
-    <string name="questionnaires">Questionnaires</string>
+    <string name="questionnaires">Questionaires</string>
     <string name="observations">Observations</string>
     <string name="logout">Logout</string>
     <string name="create_a_form">Create a Form</string>
     <string name="view_draft_forms">View draft forms</string>
-    <string name="call_interviews">Call Interviews</string>
+    <string name="call_interviews">Interviews</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_tabbed">TabbedActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

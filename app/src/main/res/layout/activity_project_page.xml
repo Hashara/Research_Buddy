@@ -4,39 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
     tools:context=".component.researcher.ProjectPageActivity">
 
-    <Button
-        android:id="@+id/btn_questionnaire"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_question_mark"
-        android:gravity="left|center_vertical"
-        android:padding="15dp"
-        android:text="@string/questionnaires" />
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btn_observation"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_questionnaire"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_observations"
-        android:gravity="left|center_vertical"
-        android:padding="15dp"
-        android:text="@string/observations" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <Button
-        android:id="@+id/btn_call_interview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_observation"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_call"
-        android:gravity="left|center_vertical"
-        android:padding="15dp"
-        android:text="@string/call_interviews" />
 
 </RelativeLayout>
