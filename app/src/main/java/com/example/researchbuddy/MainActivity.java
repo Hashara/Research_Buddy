@@ -12,6 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.researchbuddy.component.auth.LoginActivity;
+import com.example.researchbuddy.db.UserDocument;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_SCREEN_TIME_OUT = 4000;
@@ -29,17 +32,23 @@ public class MainActivity extends AppCompatActivity {
         ImageView image = findViewById(R.id.imageView);
         Animation animSideSlide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.side_slide);
         image.startAnimation(animSideSlide);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "Directing to login screen");
 
-                // todo: check user already login and direct to home
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+
+                if (user != null) {
+                    UserDocument userDocument = new UserDocument();
+                    userDocument.checkUserRoleAndRedirect(MainActivity.this);
+                } else {
+                    Log.d(TAG, "Directing to login screen");
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
 
             }
         }, SPLASH_SCREEN_TIME_OUT);

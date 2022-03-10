@@ -96,5 +96,17 @@ public class UserDocument {
 
     }
 
+    // logout
+    public void logout(Context context){
+        FirebaseAuth.getInstance()
+                .signOut();
+
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+
+
+    }
+
 
 }
