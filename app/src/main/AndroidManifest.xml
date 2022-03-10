@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
         <activity
+            android:name=".component.researcher.ProjectPageActivity"
+            android:exported="false"
+            android:parentActivityName=".component.researcher.ResearcherHomeActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".component.researcher.ResearcherHomeActivity" />
+        </activity>
+        <activity
             android:name=".component.participant.ParticipantHomeActivity"
             android:exported="false" />
         <activity

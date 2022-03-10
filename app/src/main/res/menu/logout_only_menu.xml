@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_add_project"
-        android:icon="@drawable/ic_add"
-        android:title="@string/settings"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"

@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.researchbuddy.component.auth.LoginActivity;
+import com.example.researchbuddy.db.FirestoreSetting;
 import com.example.researchbuddy.db.UserDocument;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView image = findViewById(R.id.imageView);
         Animation animSideSlide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.side_slide);
         image.startAnimation(animSideSlide);
+        new FirestoreSetting().setup();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
