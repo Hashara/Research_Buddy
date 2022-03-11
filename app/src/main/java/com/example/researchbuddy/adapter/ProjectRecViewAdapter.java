@@ -1,19 +1,20 @@
 package com.example.researchbuddy.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.component.researcher.ProjectPageActivity;
 import com.example.researchbuddy.model.ProjectModel;
 
 import java.util.ArrayList;
@@ -47,9 +48,12 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo: direct to project page
+                // todo: get project details and passsed to project page
                 Log.d(TAG, "Clicked on " + projects.get(position).getProjectName());
-                Toast.makeText(context, projects.get(position).getProjectName() + " selected", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(context, ProjectPageActivity.class);
+                Intent intent = new Intent(context, ProjectPageActivity.class);
+                context.startActivity(intent);
+//                Toast.makeText(context, projects.get(position).getProjectName() + " selected", Toast.LENGTH_SHORT).show();
             }
         });
 

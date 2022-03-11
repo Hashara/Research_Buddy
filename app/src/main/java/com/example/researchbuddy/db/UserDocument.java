@@ -11,20 +11,13 @@ import com.example.researchbuddy.component.participant.ParticipantHomeActivity;
 import com.example.researchbuddy.component.researcher.ResearcherHomeActivity;
 import com.example.researchbuddy.model.UserModel;
 import com.example.researchbuddy.model.type.Role;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Future;
 
 public class UserDocument {
 
@@ -93,6 +86,18 @@ public class UserDocument {
                         Log.d(TAG, "get failed with ", e);
                     }
                 });
+
+    }
+
+    // logout
+    public void logout(Context context){
+        FirebaseAuth.getInstance()
+                .signOut();
+
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+
 
     }
 

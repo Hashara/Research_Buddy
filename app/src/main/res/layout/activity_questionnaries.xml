@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".component.researcher.QuestionnairePageActivity">
+
+    <Button
+        android:id="@+id/btn_create_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_add_form"
+        android:gravity="left|center_vertical"
+        android:padding="15dp"
+        android:text="@string/create_a_form" />
+
+    <Button
+        android:id="@+id/btn_view_draft_forms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_create_form"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_draft"
+        android:gravity="left|center_vertical"
+        android:padding="15dp"
+        android:text="@string/view_draft_forms" />
+
+    <Button
+        android:id="@+id/btn_view_published_forms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_view_draft_forms"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_published"
+        android:gravity="left|center_vertical"
+        android:padding="15dp"
+        android:text="View published Forms" />
+
+</RelativeLayout>

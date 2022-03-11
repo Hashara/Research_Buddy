@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
+import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.ProjectModel;
 
 import java.util.ArrayList;
@@ -74,6 +76,11 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add_project:
                 // todo: create add project method
+                return true;
+            case R.id.action_logout:
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                UserDocument userDocument = new UserDocument();
+                userDocument.logout(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
