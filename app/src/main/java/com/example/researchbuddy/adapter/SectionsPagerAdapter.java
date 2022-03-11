@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.researchbuddy.R;
-import com.example.researchbuddy.component.researcher.ui.main.InterviewFragment;
-import com.example.researchbuddy.component.researcher.ui.main.ObservationsFragment;
-import com.example.researchbuddy.component.researcher.ui.main.QuestionnaireFragment;
+import com.example.researchbuddy.component.researcher.ui.project_page_fragment.InterviewFragment;
+import com.example.researchbuddy.component.researcher.ui.project_page_fragment.ObservationsFragment;
+import com.example.researchbuddy.component.researcher.ui.project_page_fragment.QuestionnaireFragment;
 
 
 /**

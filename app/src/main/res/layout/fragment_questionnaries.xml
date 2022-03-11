@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".component.researcher.ui.main.QuestionnaireFragment">
+    tools:context=".component.researcher.ui.project_page_fragment.QuestionnaireFragment">
 
     <Button
         android:id="@+id/btn_create_form"
