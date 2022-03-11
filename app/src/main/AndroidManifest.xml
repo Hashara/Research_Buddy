@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
         <activity
+            android:name=".component.researcher.FormCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".component.researcher.ProjectPageActivity"
             android:exported="false"
             android:label="@string/title_activity_tabbed"
             android:parentActivityName=".component.researcher.ResearcherHomeActivity">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

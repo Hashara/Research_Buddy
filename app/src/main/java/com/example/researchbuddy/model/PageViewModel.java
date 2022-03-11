@@ -1,4 +1,4 @@
-package com.example.researchbuddy.component.researcher.ui.main;
+package com.example.researchbuddy.model;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
