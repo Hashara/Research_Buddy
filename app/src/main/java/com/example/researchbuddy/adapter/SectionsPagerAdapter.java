@@ -35,13 +35,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below)
         switch (position){
             case 0:
-                return QuestionnaireFragment.newInstance(0);
+                return QuestionnaireFragment.newInstance(mContext,0);
             case 1:
                 return ObservationsFragment.newInstance(0);
             case 2:
                 return InterviewFragment.newInstance(0);
             default:
-                return QuestionnaireFragment.newInstance(position + 1);
+                return QuestionnaireFragment.newInstance(mContext, position + 1);
         }
     }
 

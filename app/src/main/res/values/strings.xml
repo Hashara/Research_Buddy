@@ -31,4 +31,13 @@
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="untitled_form">Untitled Form</string>
+    <string name="untitled_question">Untitled Question</string>
+    <string name="multiple_choice">Multiple Choice</string>
+    <string name="checkboxes">Checkboxes</string>
+    <string name="text">Text</string>
+    <string name="type_the_question">Type the question</string>
+    <string name="delete">Delete</string>
+    <string name="enter_possible_answers_separating">Enter possible answers separating ;</string>
+    <string name="answers">Answers</string>
 </resources>
