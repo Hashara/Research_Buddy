@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent"
-    android:padding="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:padding="10dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="20dp">
 
     <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        >
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/edt_text_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/type_the_question"
-            android:text="@string/untitled_question"
-            />
+            android:text="@string/untitled_question" />
 
         <EditText
             android:id="@+id/edt_text_answer"
@@ -39,44 +37,54 @@
             android:layout_below="@+id/edt_text_answer"
             android:text="@string/enter_possible_answers_separating" />
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_instruction">
 
-            <RelativeLayout
+        <RadioGroup
+            android:id="@+id/daily_weekly_button_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_instruction"
+            android:orientation="horizontal">
+
+
+            <RadioButton
+                android:id="@+id/radio0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left">
+                android:background="@drawable/radio_flat_selector"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="@string/text"
+                android:textColor="@drawable/radio_flat_text_selector" />
 
-                <RadioGroup
-                    android:id="@+id/toggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/radio1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radio_flat_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="@string/multiple_choice"
+                android:textColor="@drawable/radio_flat_text_selector" />
 
-                    <RadioButton
-                        android:id="@+id/button1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/text" />
+            <RadioButton
+                android:id="@+id/radio2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radio_flat_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:text="@string/checkboxes"
+                android:textColor="@drawable/radio_flat_text_selector" />
 
-                    <RadioButton
-                        android:id="@+id/button2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/multiple_choice" />
+        </RadioGroup>
 
-                    <RadioButton
-                        android:id="@+id/button3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/checkboxes" />
-                </RadioGroup>
-
-            </RelativeLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </RelativeLayout>
 
     <ImageButton
@@ -85,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:contentDescription="@string/delete"
+        android:onClick="onDeleteFormItem"
         android:src="@drawable/ic_delete"
-        android:tooltipText="@string/delete"
-        android:onClick="onDeleteFormItem"/>
+        android:tooltipText="@string/delete" />
 </androidx.cardview.widget.CardView>
