@@ -11,14 +11,18 @@
 
     <RelativeLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        >
 
         <EditText
             android:id="@+id/edt_text_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/type_the_question"
-            android:text="@string/untitled_question" />
+            android:text="@string/untitled_question"
+            />
 
         <EditText
             android:id="@+id/edt_text_answer"
@@ -71,16 +75,6 @@
                 </RadioGroup>
 
             </RelativeLayout>
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/btn_delete"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="bottom|right"-->
-<!--                android:contentDescription="@string/delete"-->
-<!--                android:src="@drawable/ic_delete"-->
-<!--                android:tooltipText="@string/delete"-->
-<!--                android:onClick="onDeleteFormItem"/>-->
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </RelativeLayout>
