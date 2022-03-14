@@ -10,9 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.model.FormModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -81,15 +87,52 @@ public class FormCreateActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.form_item, null);
         // Add the new row before the add field button.
+        ImageButton btn_delete = rowView.findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(view -> {
+            linear_layout_parent.removeView((View) view.getParent());
+        });
 
+        // radio button functions
+        RadioGroup radioGroup = rowView.findViewById(R.id.radio_group_question_type);
+        EditText editTextAnswer = rowView.findViewById(R.id.edt_text_answer);
+        TextView txtInstruction = rowView.findViewById(R.id.txt_instruction);
+
+        int checkedRadioId = radioGroup.getCheckedRadioButtonId();
+
+        switch (checkedRadioId) {
+            case R.id.radio_checkboxes:
+            case R.id.radio_multiple_choice:
+                editTextAnswer.setVisibility(View.VISIBLE);
+                txtInstruction.setVisibility(View.VISIBLE);
+                break;
+            case R.id.radio_text:
+                editTextAnswer.setVisibility(View.GONE);
+                txtInstruction.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+
+                    case R.id.radio_checkboxes:
+                    case R.id.radio_multiple_choice:
+                        editTextAnswer.setVisibility(View.VISIBLE);
+                        txtInstruction.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.radio_text:
+                        editTextAnswer.setVisibility(View.GONE);
+                        txtInstruction.setVisibility(View.GONE);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         linear_layout_parent.addView(rowView, linear_layout_parent.getChildCount());
     }
-
-
-    public void onDeleteFormItem(View view) {
-        Log.d(TAG, "On delete view");
-        linear_layout_parent.removeView((View) view.getParent());
-    }
-
 
 }
