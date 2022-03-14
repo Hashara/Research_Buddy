@@ -40,4 +40,9 @@
     <string name="delete">Delete</string>
     <string name="enter_possible_answers_separating">Enter possible answers separating ;</string>
     <string name="answers">Answers</string>
+    <string name="add_image">Add image</string>
+    <string name="add_video">Add video</string>
+    <string name="add_audio">Add audio</string>
+    <string name="new_call_recording">New call recording</string>
+    <string name="view_call_recordings">View call recordings</string>
 </resources>

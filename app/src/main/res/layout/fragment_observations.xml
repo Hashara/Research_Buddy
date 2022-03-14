@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_add_form"
+        android:drawableLeft="@drawable/ic_image"
         android:gravity="left|center_vertical"
         android:padding="15dp"
-        android:text="@string/create_a_form" />
+        android:text="@string/add_image" />
 
     <Button
         android:id="@+id/btn_view_draft_forms"
@@ -23,10 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_create_form"
         android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_draft"
+        android:drawableLeft="@drawable/ic_video"
         android:gravity="left|center_vertical"
         android:padding="15dp"
-        android:text="@string/view_draft_forms" />
+        android:text="@string/add_video" />
 
     <Button
         android:id="@+id/btn_view_published_forms"
@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_view_draft_forms"
         android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_published"
+        android:drawableLeft="@drawable/ic_audio"
         android:gravity="left|center_vertical"
         android:padding="15dp"
-        android:text="View published Forms" />
+        android:text="@string/add_audio" />
 
 </RelativeLayout>
