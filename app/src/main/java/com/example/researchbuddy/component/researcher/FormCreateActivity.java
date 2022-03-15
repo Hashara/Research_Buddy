@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.type.FormItemType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -37,8 +38,6 @@ public class FormCreateActivity extends AppCompatActivity {
     private FloatingActionButton btn_add_question;
     private FloatingActionButton btn_submit;
 
-    private ArrayList<FormModel> formItems = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +51,6 @@ public class FormCreateActivity extends AppCompatActivity {
 //        loadFormItems();
 
 
-        btn_add_question.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addFormItem();
-            }
-        });
     }
 
     private void initViews() {
@@ -68,6 +61,17 @@ public class FormCreateActivity extends AppCompatActivity {
 
         scroll = findViewById(R.id.scroll);
         linear_layout_parent = findViewById(R.id.linear_layout_parent);
+
+        btn_add_question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFormItem();
+            }
+        });
+
+        btn_submit.setOnClickListener(view -> {
+            onClickSubmitButton();
+        });
     }
 
 //
@@ -133,6 +137,44 @@ public class FormCreateActivity extends AppCompatActivity {
             }
         });
         linear_layout_parent.addView(rowView, linear_layout_parent.getChildCount());
+    }
+
+    public void onClickSubmitButton() {
+        final int childCount = linear_layout_parent.getChildCount();
+        ArrayList<FormModel> formItems = new ArrayList<>();
+        for (int i = 0; i < childCount; i++) {
+            View v = linear_layout_parent.getChildAt(i);
+            FormModel formModel = new FormModel();
+
+            formModel.setPosition(i);
+
+
+            EditText txt_answer_list = v.findViewById(R.id.edt_text_answer);
+            EditText txt_question = v.findViewById(R.id.edt_text_question);
+            RadioGroup radioGroup = v.findViewById(R.id.radio_group_question_type);
+            int checkedRadioId = radioGroup.getCheckedRadioButtonId();
+
+            switch (checkedRadioId) {
+                case R.id.radio_checkboxes:
+                    formModel.setType(FormItemType.CHECK_BOXES);
+                    formModel.setAnswerList(txt_answer_list.getText().toString());
+                    break;
+                case R.id.radio_multiple_choice:
+                    formModel.setType(FormItemType.MULTIPLE_CHOICE);
+                    formModel.setAnswerList(txt_answer_list.getText().toString());
+                    break;
+                case R.id.radio_text:
+                    formModel.setType(FormItemType.TEXT);
+                    formModel.setAnswerList(new ArrayList<>());
+                    break;
+                default:
+                    break;
+            }
+            formModel.setQuestion(txt_question.getText().toString());
+            formItems.add(formModel);
+        }
+
+        Log.d(TAG, formItems.toString());
     }
 
 }

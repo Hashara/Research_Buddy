@@ -3,6 +3,7 @@ package com.example.researchbuddy.model;
 import com.example.researchbuddy.model.type.FormItemType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FormModel {
 
@@ -50,6 +51,11 @@ public class FormModel {
         this.answerList = answerList;
     }
 
+    public void setAnswerList(String answerList) {
+        this.answerList =  new ArrayList<String>(Arrays.asList(answerList.split("\\s*;\\s*")));
+    }
+
+
     public void setTextAnswer(String textAnswer) {
         this.textAnswer = textAnswer;
     }
@@ -78,5 +84,16 @@ public class FormModel {
             textAnswer = "";
         }
         return textAnswer;
+    }
+
+    @Override
+    public String toString() {
+        return "FormModel{" +
+                "question='" + question + '\'' +
+                ", position=" + position +
+                ", type=" + type +
+                ", answerList=" + answerList +
+                ", textAnswer='" + textAnswer + '\'' +
+                '}';
     }
 }
