@@ -1,14 +1,18 @@
 package com.example.researchbuddy.component.researcher.ui.project_page_fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.researchbuddy.component.researcher.FormCreateActivity;
 import com.example.researchbuddy.databinding.FragmentQuestionnariesBinding;
 import com.example.researchbuddy.model.PageViewModel;
 
@@ -21,13 +25,15 @@ public class QuestionnaireFragment extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentQuestionnariesBinding binding;
+    private Context context;
 
     // todo: bind with project
-    public static QuestionnaireFragment newInstance(int index) {
+    public static QuestionnaireFragment newInstance(Context context, int index) {
         QuestionnaireFragment fragment = new QuestionnaireFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
 //        fragment.setArguments(bundle);
+        fragment.context = context;
         return fragment;
     }
 
@@ -50,6 +56,11 @@ public class QuestionnaireFragment extends Fragment {
         binding = FragmentQuestionnariesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // initialize views
+        final Button btn_create_form = binding.btnCreateForm;
+        final Button btn_view_draft_forms = binding.btnViewDraftForms;
+        final Button btn_view_published_forms = binding.btnViewPublishedForms;
+
 /*        final TextView textView = binding.sectionLabel;
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -57,6 +68,14 @@ public class QuestionnaireFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+        // todo: add on click listeners
+        btn_create_form.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FormCreateActivity.class);
+                context.startActivity(intent);
+            }
+        });
         return root;
     }
 
