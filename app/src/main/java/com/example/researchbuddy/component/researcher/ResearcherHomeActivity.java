@@ -4,24 +4,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
+import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.CollectionTypes;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResearcherHomeActivity extends AppCompatActivity {
     private static final String TAG = "ResearcherHomeActivity";
 
     private RecyclerView projectRecView;
+
+    private View dialogView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +88,11 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add_project:
                 // todo: create add project method
+
+                // Inflate Custom alert dialog view
+                dialogView = LayoutInflater.from(this)
+                        .inflate(R.layout.activity_create_project, null, false);
+                launchDialogView();
                 return true;
             case R.id.action_logout:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
@@ -86,4 +103,65 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void launchDialogView() {
+        MaterialAlertDialogBuilder materialAlertDialogBuilder =
+                new MaterialAlertDialogBuilder(this);
+
+        CreateProjectActivity createProjectActivity = new CreateProjectActivity();
+        createProjectActivity.initViews(dialogView);
+        createProjectActivity.setCheckboxListeners();
+
+        materialAlertDialogBuilder.setView(dialogView)
+                .setTitle("Create new project")
+                .setMessage("Project Template")
+                .setPositiveButton("create", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(ResearcherHomeActivity.this, "Create is clicked", Toast.LENGTH_SHORT).show();
+                        createProjectActivity.createProject(dialogView);
+                    }
+                })
+                .setNegativeButton("cancle", null)
+                .show();
+    }
+
+//    public void createNewProject() {
+//
+//        String[] multiItems = { "Questionnaires", "Observations", "Interviews"};
+//        boolean[] checkedItems = {false, false, false};
+//        List<CollectionTypes> selectedModes = new ArrayList<>();
+//
+//        new MaterialAlertDialogBuilder(this)
+//                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Toast.makeText(ResearcherHomeActivity.this, "Create is clicked", Toast.LENGTH_SHORT).show();
+////                        ProjectDocument projectDocument = new ProjectDocument();
+////                        projectDocument.onCreateProject();
+//                    }
+//                })
+//                .setNegativeButton("Cancel", null)
+//                .setMultiChoiceItems(multiItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i, boolean checked) {
+//                        System.out.println(multiItems[i] + " : " + checked);
+//                        if(checked){
+//                            switch (multiItems[i]){
+//                                case "Questionnaires":
+//                                    selectedModes.add(CollectionTypes.FORMS);
+//                                    break;
+//                                case "Observations":
+//                                    selectedModes.add(CollectionTypes.OBSERVATION);
+//                                    break;
+//                                case "Interviews":
+//                                    selectedModes.add(CollectionTypes.CALL_INTERVIEW);
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                })
+//                .setTitle("Project Template")
+//                .show();
+//    }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".component.researcher.CreateProjectActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/dialogForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayoutProjectName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Project Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtModes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Modes"
+            android:layout_below="@id/txtLayoutProjectName"
+            android:layout_marginTop="20dp"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkQuestionnaire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtModes"
+            android:layout_marginTop="20dp"
+            android:text="Questionnaire" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkObservation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checkQuestionnaire"
+            android:layout_marginTop="20dp"
+            android:text="Observations" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkInterview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checkObservation"
+            android:layout_marginTop="20dp"
+            android:text="Interview" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
+<!--        <activity-->
+<!--            android:name=".component.researcher.CreateProjectActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".component.researcher.FormCreateActivity"
             android:exported="false" />
