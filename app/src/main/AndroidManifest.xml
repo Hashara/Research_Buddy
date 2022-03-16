@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
         <activity
+            android:name=".component.researcher.FormDisplayActivity"
+            android:exported="false" />
+        <activity
             android:name=".component.researcher.FormCreateActivity"
             android:exported="false" />
         <activity

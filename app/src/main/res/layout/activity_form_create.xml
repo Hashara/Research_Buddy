@@ -13,6 +13,16 @@
 
         android:layout_gravity="top">
 
+        <ProgressBar
+            android:id="@+id/progress_bar_loading"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="50dp"
+            />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/title_card"
             android:layout_width="match_parent"
@@ -60,6 +70,7 @@
 
         </ScrollView>
     </RelativeLayout>
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

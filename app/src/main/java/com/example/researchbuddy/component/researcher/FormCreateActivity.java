@@ -1,10 +1,10 @@
 package com.example.researchbuddy.component.researcher;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +12,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.component.auth.LoginActivity;
+import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.type.FormItemType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +38,10 @@ public class FormCreateActivity extends AppCompatActivity {
 
     private FloatingActionButton btn_add_question;
     private FloatingActionButton btn_submit;
+
+    private ProgressBar progressBar;
+
+    private CardView title_card;
 
 
     @Override
@@ -62,6 +67,10 @@ public class FormCreateActivity extends AppCompatActivity {
         scroll = findViewById(R.id.scroll);
         linear_layout_parent = findViewById(R.id.linear_layout_parent);
 
+        progressBar = findViewById(R.id.progress_bar_loading);
+
+        title_card = findViewById(R.id.title_card);
+
         btn_add_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +81,8 @@ public class FormCreateActivity extends AppCompatActivity {
         btn_submit.setOnClickListener(view -> {
             onClickSubmitButton();
         });
+
+        addFormItem();
     }
 
 //
@@ -140,13 +151,18 @@ public class FormCreateActivity extends AppCompatActivity {
     }
 
     public void onClickSubmitButton() {
-        final int childCount = linear_layout_parent.getChildCount();
-        ArrayList<FormModel> formItems = new ArrayList<>();
-        for (int i = 0; i < childCount; i++) {
-            View v = linear_layout_parent.getChildAt(i);
-            FormModel formModel = new FormModel();
+        progressBar.setVisibility(View.VISIBLE);
+        linear_layout_parent.setVisibility(View.GONE);
+        title_card.setVisibility(View.GONE);
 
-            formModel.setPosition(i);
+        final int childCount = linear_layout_parent.getChildCount();
+        ArrayList<FormItemModel> formItems = new ArrayList<>();
+        for (int i = 0; i < childCount; i++) {
+            progressBar.setProgress(i / childCount);
+            View v = linear_layout_parent.getChildAt(i);
+            FormItemModel formItemModel = new FormItemModel();
+
+            formItemModel.setPosition(i);
 
 
             EditText txt_answer_list = v.findViewById(R.id.edt_text_answer);
@@ -156,25 +172,41 @@ public class FormCreateActivity extends AppCompatActivity {
 
             switch (checkedRadioId) {
                 case R.id.radio_checkboxes:
-                    formModel.setType(FormItemType.CHECK_BOXES);
-                    formModel.setAnswerList(txt_answer_list.getText().toString());
+                    formItemModel.setType(FormItemType.CHECK_BOXES);
+                    formItemModel.setAnswerList(txt_answer_list.getText().toString());
                     break;
                 case R.id.radio_multiple_choice:
-                    formModel.setType(FormItemType.MULTIPLE_CHOICE);
-                    formModel.setAnswerList(txt_answer_list.getText().toString());
+                    formItemModel.setType(FormItemType.MULTIPLE_CHOICE);
+                    formItemModel.setAnswerList(txt_answer_list.getText().toString());
                     break;
                 case R.id.radio_text:
-                    formModel.setType(FormItemType.TEXT);
-                    formModel.setAnswerList(new ArrayList<>());
+                    formItemModel.setType(FormItemType.TEXT);
+                    formItemModel.setAnswerList(new ArrayList<>());
                     break;
                 default:
                     break;
             }
-            formModel.setQuestion(txt_question.getText().toString());
-            formItems.add(formModel);
+            formItemModel.setQuestion(txt_question.getText().toString());
+            formItems.add(formItemModel);
         }
 
         Log.d(TAG, formItems.toString());
+
+        String formTitle = edt_txt_form_title.getText().toString();
+        String formDescription = edt_from_description.getText().toString();
+        FormModel form = new FormModel(formTitle, formDescription, formItems);
+
+//        Log.d(TAG, form.toString());
+        // pass object to next activity
+        Intent intent = new Intent(this, FormDisplayActivity.class);
+        intent.putExtra("form", form);
+
+
+        progressBar.setVisibility(View.GONE);
+        linear_layout_parent.setVisibility(View.VISIBLE);
+        title_card.setVisibility(View.VISIBLE);
+
+        startActivity(intent);
     }
 
 }
