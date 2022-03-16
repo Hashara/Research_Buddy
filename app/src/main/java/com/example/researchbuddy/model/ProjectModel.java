@@ -6,14 +6,16 @@ import java.util.List;
 
 public class ProjectModel {
     private String projectName;
-    private String projectId;
+//    private String projectId;
+    private String userId;
+
     private List<CollectionTypes> collectionTypes;
 
-    public ProjectModel(String projectName, String projectId, List<CollectionTypes> collectionTypes) {
-        this.projectName = projectName;
-        this.projectId = projectId;
-        this.collectionTypes = collectionTypes;
-    }
+//    public ProjectModel(String projectName, String projectId, List<CollectionTypes> collectionTypes) {
+//        this.projectName = projectName;
+//        this.projectId = projectId;
+//        this.collectionTypes = collectionTypes;
+//    }
 
     public ProjectModel(String projectName, List<CollectionTypes> collectionTypes) {
         this.projectName = projectName;
@@ -33,13 +35,13 @@ public class ProjectModel {
         this.projectName = projectName;
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
+//    public String getProjectId() {
+//        return projectId;
+//    }
+//
+//    public void setProjectId(String projectId) {
+//        this.projectId = projectId;
+//    }
 
     public List<CollectionTypes> getCollectionTypes() {
         return collectionTypes;
@@ -47,5 +49,13 @@ public class ProjectModel {
 
     public void setCollectionTypes(List<CollectionTypes> collectionTypes) {
         this.collectionTypes = collectionTypes;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
