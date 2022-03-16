@@ -1,99 +1,52 @@
 package com.example.researchbuddy.model;
 
-import com.example.researchbuddy.model.type.FormItemType;
-
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class FormModel {
+public class FormModel implements Serializable {
+    private String title;
+    private String description;
+    private ArrayList<FormItemModel> items;
 
-    private String question;
-    private int position;
-    private FormItemType type;
-    private ArrayList<String> answerList;
-    private String textAnswer;
-
-    public FormModel(String question, int position, FormItemType type, ArrayList<String> answerList, String textAnswer) {
-        this.question = question;
-        this.position = position;
-        this.type = type;
-        this.answerList = answerList;
-        this.textAnswer = textAnswer;
+    public FormModel(String title, String description, ArrayList<FormItemModel> items) {
+        this.title = title;
+        this.description = description;
+        this.items = items;
     }
 
     public FormModel() {
     }
 
-    public FormModel(String question) {
-        this.question = question;
-
+    public String getTitle() {
+        return title;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public String getDescription() {
+        return description;
     }
 
-    public void setType(FormItemType type) {
-        this.type = type;
-        if (type.equals(FormItemType.TEXT)) {
-            answerList = null;
-        } else {
-            textAnswer = "";
-            answerList = new ArrayList<>();
-        }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setAnswerList(ArrayList<String> answerList) {
-        this.answerList = answerList;
+    public ArrayList<FormItemModel> getItems() {
+        return items;
     }
 
-    public void setAnswerList(String answerList) {
-        this.answerList =  new ArrayList<String>(Arrays.asList(answerList.split("\\s*;\\s*")));
-    }
-
-
-    public void setTextAnswer(String textAnswer) {
-        this.textAnswer = textAnswer;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public FormItemType getType() {
-        return type;
-    }
-
-    public ArrayList<String> getAnswerList() {
-        if (type.equals(FormItemType.TEXT)) {
-            answerList = null;
-        }
-        return answerList;
-    }
-
-    public String getTextAnswer() {
-        if (!type.equals(FormItemType.TEXT)) {
-            textAnswer = "";
-        }
-        return textAnswer;
+    public void setItems(ArrayList<FormItemModel> items) {
+        this.items = items;
     }
 
     @Override
     public String toString() {
         return "FormModel{" +
-                "question='" + question + '\'' +
-                ", position=" + position +
-                ", type=" + type +
-                ", answerList=" + answerList +
-                ", textAnswer='" + textAnswer + '\'' +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", items=" + items +
                 '}';
     }
 }
