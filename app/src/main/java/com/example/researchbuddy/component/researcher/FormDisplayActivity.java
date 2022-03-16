@@ -2,11 +2,22 @@ package com.example.researchbuddy.component.researcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
 
 public class FormDisplayActivity extends AppCompatActivity {
@@ -16,6 +27,8 @@ public class FormDisplayActivity extends AppCompatActivity {
 
     private TextView txt_form_title;
     private TextView txt_form_description;
+
+    private LinearLayout linear_layout_parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +47,74 @@ public class FormDisplayActivity extends AppCompatActivity {
     private void initViews() {
         txt_form_title = findViewById(R.id.txt_form_title);
         txt_form_description = findViewById(R.id.txt_from_description);
+        linear_layout_parent = findViewById(R.id.linear_layout_parent);
 
         txt_form_title.setText(form.getTitle());
         txt_form_description.setText(form.getDescription());
+
+        createFormItemUI();
+    }
+
+    private void createFormItemUI() {
+
+        for (FormItemModel formItem:
+             form.getItems()) {
+
+
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View rowView = inflater.inflate(R.layout.form_answering_item, null);
+
+            // initialize view items
+            TextView question = rowView.findViewById(R.id.txt_question);
+            LinearLayout answer_layout = rowView.findViewById(R.id.linear_layout_answers);
+
+            question.setText(formItem.getQuestion());
+
+            switch (formItem.getType()){
+                case TEXT:
+                    EditText answer_text = new EditText(this);
+                    answer_text.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                    answer_layout.addView((View) answer_text);
+                    break;
+
+                case MULTIPLE_CHOICE:
+                    RadioGroup answer_radio_group = new RadioGroup(this);
+
+                    for(String choice: formItem.getAnswerList()){
+                        RadioButton radio_btn = new RadioButton(this);
+                        radio_btn.setText(choice);
+//                        radio_btn.setId(i + 100);
+                        answer_radio_group.addView(radio_btn);
+                    }
+
+                    // todo: add this when form filling
+/*                    answer_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                            RadioButton radioButton = (RadioButton) findViewById(i);
+
+                            formItem.setTextAnswer(radioButton.getText().toString());
+                        }
+                    });*/
+                    answer_layout.addView((View) answer_radio_group);
+                    break;
+
+                case CHECK_BOXES:
+                    for(String choice: formItem.getAnswerList()){
+                        CheckBox check_box = new CheckBox(this);
+                        check_box.setText(choice);
+
+                        // todo: add onclick listener when form filling
+                        answer_layout.addView((View) check_box);
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            linear_layout_parent.addView(rowView, linear_layout_parent.getChildCount());
+        }
 
     }
 }
