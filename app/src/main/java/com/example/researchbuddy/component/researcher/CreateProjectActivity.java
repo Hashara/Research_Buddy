@@ -3,6 +3,9 @@ package com.example.researchbuddy.component.researcher;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.model.ProjectModel;
@@ -20,6 +23,8 @@ public class CreateProjectActivity{
     private MaterialCheckBox questionnaire, observation, interview;
     private String projectNameValue;
     private boolean questionnaireVal, observationVal, interviewVal;
+    private AwesomeValidation awesomeValidation;
+
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -84,5 +89,20 @@ public class CreateProjectActivity{
         projectDocument.onCreateProject(projectModel);
     }
 
+    public AwesomeValidation getAwesomeValidation() {
+        return awesomeValidation;
+    }
 
+    public void validateInput() {
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(projectName.getEditText(), RegexTemplate.NOT_EMPTY,
+                "Project name is empty");
+    }
+
+    public boolean validateInputData(){
+        projectNameValue = projectName.getEditText().getText().toString();
+        System.out.println(this);
+        if(projectNameValue.isEmpty()) return false;
+        return questionnaireVal || observationVal || interviewVal;
+    }
 }

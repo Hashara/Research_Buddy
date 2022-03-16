@@ -136,9 +136,6 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_add_project:
-                // todo: create add project method
-
-                // Inflate Custom alert dialog view
                 dialogView = LayoutInflater.from(this)
                         .inflate(R.layout.activity_create_project, null, false);
                 launchDialogView();
@@ -159,9 +156,11 @@ public class ResearcherHomeActivity extends AppCompatActivity {
 
         CreateProjectActivity createProjectActivity = new CreateProjectActivity();
         createProjectActivity.initViews(dialogView);
+        createProjectActivity.validateInput();
         createProjectActivity.setCheckboxListeners();
 
         materialAlertDialogBuilder.setView(dialogView)
+                .setCancelable(false)
                 .setTitle("Create new project")
                 .setMessage("Project Template")
                 .setPositiveButton("create", new DialogInterface.OnClickListener() {
@@ -172,48 +171,24 @@ public class ResearcherHomeActivity extends AppCompatActivity {
 
                         // todo: change to add only the new project
                         getProjects();
+
+                        if(createProjectActivity.getAwesomeValidation().validate()){
+                            if(createProjectActivity.validateInputData()){
+                                createProjectActivity.createProject(dialogView);
+                                dialogInterface.dismiss();
+                            }
+                            else {
+                                Toast.makeText(dialogView.getContext(), "Select at least one mode", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 })
-                .setNegativeButton("cancle", null)
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
                 .show();
     }
-
-//    public void createNewProject() {
-//
-//        String[] multiItems = { "Questionnaires", "Observations", "Interviews"};
-//        boolean[] checkedItems = {false, false, false};
-//        List<CollectionTypes> selectedModes = new ArrayList<>();
-//
-//        new MaterialAlertDialogBuilder(this)
-//                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        Toast.makeText(ResearcherHomeActivity.this, "Create is clicked", Toast.LENGTH_SHORT).show();
-////                        ProjectDocument projectDocument = new ProjectDocument();
-////                        projectDocument.onCreateProject();
-//                    }
-//                })
-//                .setNegativeButton("Cancel", null)
-//                .setMultiChoiceItems(multiItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i, boolean checked) {
-//                        System.out.println(multiItems[i] + " : " + checked);
-//                        if(checked){
-//                            switch (multiItems[i]){
-//                                case "Questionnaires":
-//                                    selectedModes.add(CollectionTypes.FORMS);
-//                                    break;
-//                                case "Observations":
-//                                    selectedModes.add(CollectionTypes.OBSERVATION);
-//                                    break;
-//                                case "Interviews":
-//                                    selectedModes.add(CollectionTypes.CALL_INTERVIEW);
-//                                    break;
-//                            }
-//                        }
-//                    }
-//                })
-//                .setTitle("Project Template")
-//                .show();
-//    }
 }
