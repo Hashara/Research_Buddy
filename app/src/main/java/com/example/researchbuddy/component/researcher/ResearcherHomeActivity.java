@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
@@ -42,6 +43,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
 
     private RecyclerView projectRecView;
 
+    private ProgressBar progressBar;
     private View dialogView;
     private ArrayList<ProjectModel> projects = new ArrayList<>();
 
@@ -62,7 +64,10 @@ public class ResearcherHomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
         projectRecView = findViewById(R.id.projectRecView);
+        progressBar = findViewById(R.id.progress_bar_loading);
+
     }
 
     public void setProjects(ArrayList<ProjectModel> projects) {
@@ -75,6 +80,9 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         Log.d(TAG, "Project fetching");
 
         Context context = this;
+
+        projectRecView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         CollectionReference projectRef = FirebaseFirestore.getInstance().collection("projects");
         projectRef
@@ -110,6 +118,8 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                     }
                 });
 
+        projectRecView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 
     // action bar
@@ -159,6 +169,9 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(ResearcherHomeActivity.this, "Create is clicked", Toast.LENGTH_SHORT).show();
                         createProjectActivity.createProject(dialogView);
+
+                        // todo: change to add only the new project
+                        getProjects();
                     }
                 })
                 .setNegativeButton("cancle", null)
