@@ -1,9 +1,11 @@
 package com.example.researchbuddy.component.researcher;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +24,15 @@ import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.CollectionTypes;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +43,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
     private RecyclerView projectRecView;
 
     private View dialogView;
+    private ArrayList<ProjectModel> projects = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,29 +58,58 @@ public class ResearcherHomeActivity extends AppCompatActivity {
 
         initView();
 
-        addProjects();
+        getProjects();
     }
 
     private void initView() {
         projectRecView = findViewById(R.id.projectRecView);
     }
 
-    private void addProjects() {
-        Log.d(TAG, "creating project views");
-        ArrayList<ProjectModel> projects = new ArrayList<>();
+    public void setProjects(ArrayList<ProjectModel> projects) {
+        this.projects = projects;
+    }
 
-        // todo: get project from database
-        projects.add(new ProjectModel("Demo"));
-        projects.add(new ProjectModel("Demo1"));
-        projects.add(new ProjectModel("Demo2"));
-        projects.add(new ProjectModel("Demo3"));
-        projects.add(new ProjectModel("Demo4"));
 
-        ProjectRecViewAdapter adapter = new ProjectRecViewAdapter(this);
-        adapter.setProjects(projects);
+    // get project from db
+    public void getProjects() {
+        Log.d(TAG, "Project fetching");
 
-        projectRecView.setAdapter(adapter);
-        projectRecView.setLayoutManager(new GridLayoutManager(this, 2));
+        Context context = this;
+
+        CollectionReference projectRef = FirebaseFirestore.getInstance().collection("projects");
+        projectRef
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot document : documents) {
+                            if (document.exists()) {
+                                ProjectModel project = document.toObject(ProjectModel.class);
+                                Log.d(TAG, document.getId());
+                                project.setProjectId(document.getId());
+                                projects.add(project);
+                                Log.d(TAG, project.toString());
+
+                            }
+
+                        }
+                        ProjectRecViewAdapter adapter = new ProjectRecViewAdapter(context);
+                        adapter.setProjects(projects);
+
+                        projectRecView.setAdapter(adapter);
+                        projectRecView.setLayoutManager(new GridLayoutManager(context, 2));
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                });
+
     }
 
     // action bar

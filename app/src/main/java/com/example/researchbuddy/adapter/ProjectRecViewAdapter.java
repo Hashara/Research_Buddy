@@ -1,5 +1,6 @@
 package com.example.researchbuddy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -32,6 +33,12 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
 
     public void setProjects(ArrayList<ProjectModel> projects) {
         this.projects = projects;
+        notifyDataSetChanged();
+    }
+
+    public void addProject(ProjectModel project){
+        projects.add(project);
+        notifyItemInserted(projects.size() - 1);
     }
 
     @NonNull
@@ -43,7 +50,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtFolderName.setText(projects.get(position).getProjectName());
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
