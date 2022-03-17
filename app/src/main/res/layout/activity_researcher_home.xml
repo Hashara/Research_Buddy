@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".component.researcher.ResearcherHomeActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_loading"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="50dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/projectRecView"
         android:layout_width="match_parent"
