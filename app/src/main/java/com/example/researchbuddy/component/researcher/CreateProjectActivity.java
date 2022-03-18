@@ -99,7 +99,7 @@ public class CreateProjectActivity{
                 "Project name is empty");
     }
 
-    public boolean validateInputData(){
+    public boolean validateInputModes(){
         projectNameValue = projectName.getEditText().getText().toString();
         System.out.println(this);
         if(projectNameValue.isEmpty()) return false;

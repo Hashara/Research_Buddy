@@ -1,13 +1,12 @@
 package com.example.researchbuddy.component.researcher;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,19 +14,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
-import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.ProjectModel;
-import com.example.researchbuddy.model.type.CollectionTypes;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -151,44 +146,38 @@ public class ResearcherHomeActivity extends AppCompatActivity {
     }
 
     public void launchDialogView() {
-        MaterialAlertDialogBuilder materialAlertDialogBuilder =
-                new MaterialAlertDialogBuilder(this);
-
         CreateProjectActivity createProjectActivity = new CreateProjectActivity();
         createProjectActivity.initViews(dialogView);
         createProjectActivity.validateInput();
         createProjectActivity.setCheckboxListeners();
 
-        materialAlertDialogBuilder.setView(dialogView)
-                .setCancelable(false)
+        MaterialAlertDialogBuilder materialAlertDialog =
+                new MaterialAlertDialogBuilder(this)
+                .setView(dialogView)
                 .setTitle("Create new project")
                 .setMessage("Project Template")
-                .setPositiveButton("create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(ResearcherHomeActivity.this, "Create is clicked", Toast.LENGTH_SHORT).show();
-                        createProjectActivity.createProject(dialogView);
+                .setPositiveButton("create", null)
+                .setNegativeButton("cancel", null);
 
+        AlertDialog projectDialog = materialAlertDialog.show();
+        projectDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(createProjectActivity.getAwesomeValidation().validate()){
+                    if(createProjectActivity.validateInputModes()){
+                        createProjectActivity.createProject(dialogView);
+                        projectDialog.dismiss();
                         // todo: change to add only the new project
                         getProjects();
+                    }
+                    else {
+                        Toast.makeText(dialogView.getContext(), "Select at least one mode", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
-                        if(createProjectActivity.getAwesomeValidation().validate()){
-                            if(createProjectActivity.validateInputData()){
-                                createProjectActivity.createProject(dialogView);
-                                dialogInterface.dismiss();
-                            }
-                            else {
-                                Toast.makeText(dialogView.getContext(), "Select at least one mode", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
+
     }
 }
