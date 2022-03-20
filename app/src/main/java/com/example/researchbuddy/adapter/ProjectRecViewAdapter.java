@@ -59,12 +59,15 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
                 Log.d(TAG, "Clicked on " + projects.get(position).getProjectName());
 //                Intent intent = new Intent(context, ProjectPageActivity.class);
                 Intent intent = new Intent(context, ProjectPageActivity.class);
+                intent.putExtra("project", projects.get(position));
                 context.startActivity(intent);
 //                Toast.makeText(context, projects.get(position).getProjectName() + " selected", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
+
 
     @Override
     public int getItemCount() {

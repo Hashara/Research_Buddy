@@ -171,7 +171,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                         createProjectActivity.createProject(dialogView);
 
                         // todo: change to add only the new project
-                        getProjects();
+                        startActivity(getIntent());;
                     }
                 })
                 .setNegativeButton("cancle", null)

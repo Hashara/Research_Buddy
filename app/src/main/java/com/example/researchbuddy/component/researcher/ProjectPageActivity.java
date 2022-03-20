@@ -1,6 +1,7 @@
 package com.example.researchbuddy.component.researcher;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.databinding.ActivityProjectPageBinding;
 import com.example.researchbuddy.db.UserDocument;
+import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.ProjectModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
@@ -23,24 +26,32 @@ import com.example.researchbuddy.adapter.SectionsPagerAdapter;
 public class ProjectPageActivity extends AppCompatActivity {
 
     private ActivityProjectPageBinding binding;
+    private ProjectModel project;
+    private String TAG= "ProjectPageActivity";
 //    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // todo: set page title to project name
         binding = ActivityProjectPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initViews();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            project = (ProjectModel) getIntent().getSerializableExtra("project");
+            Log.d(TAG, project.toString());
+            initViews();
+
+            SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), project);
+            ViewPager viewPager = binding.viewPager;
+            viewPager.setAdapter(sectionsPagerAdapter);
+            TabLayout tabs = binding.tabs;
+            tabs.setupWithViewPager(viewPager);
+        }
 
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = binding.viewPager;
-        viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = binding.tabs;
-        tabs.setupWithViewPager(viewPager);
+
 
     }
 
@@ -49,6 +60,7 @@ public class ProjectPageActivity extends AppCompatActivity {
         // add back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(project.getProjectName());
     }
 
     @Override
