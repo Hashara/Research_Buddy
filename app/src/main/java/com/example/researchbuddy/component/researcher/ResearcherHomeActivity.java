@@ -136,8 +136,6 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_add_project:
-                // todo: create add project method
-
                 // Inflate Custom alert dialog view
                 dialogView = LayoutInflater.from(this)
                         .inflate(R.layout.activity_create_project, null, false);
@@ -171,7 +169,8 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                         createProjectActivity.createProject(dialogView);
 
                         // todo: change to add only the new project
-                        startActivity(getIntent());;
+                        startActivity(getIntent());
+                        ;
                     }
                 })
                 .setNegativeButton("cancle", null)

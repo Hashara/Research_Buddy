@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/btn_create_form"
+        android:id="@+id/btn_add_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -18,10 +18,10 @@
         android:text="@string/add_image" />
 
     <Button
-        android:id="@+id/btn_view_draft_forms"
+        android:id="@+id/btn_add_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_create_form"
+        android:layout_below="@id/btn_add_image"
         android:layout_margin="10dp"
         android:drawableLeft="@drawable/ic_video"
         android:gravity="left|center_vertical"
@@ -29,10 +29,10 @@
         android:text="@string/add_video" />
 
     <Button
-        android:id="@+id/btn_view_published_forms"
+        android:id="@+id/btn_add_audio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_view_draft_forms"
+        android:layout_below="@id/btn_add_video"
         android:layout_margin="10dp"
         android:drawableLeft="@drawable/ic_audio"
         android:gravity="left|center_vertical"

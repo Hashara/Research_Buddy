@@ -55,7 +55,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case CALL_INTERVIEW:
                 return InterviewFragment.newInstance(position);
             case OBSERVATION:
-                return ObservationsFragment.newInstance(position);
+                return ObservationsFragment.newInstance(mContext, position);
             case FORMS:
                 return QuestionnaireFragment.newInstance(mContext, position);
             default:

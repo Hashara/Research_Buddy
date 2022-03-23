@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
@@ -16,6 +17,8 @@ import com.example.researchbuddy.db.FirestoreSetting;
 import com.example.researchbuddy.db.UserDocument;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_SCREEN_TIME_OUT = 4000;
