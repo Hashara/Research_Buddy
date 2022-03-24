@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.example.researchbuddy.component.auth.LoginActivity;
 import com.example.researchbuddy.db.FirestoreSetting;
 import com.example.researchbuddy.db.UserDocument;
+import com.example.researchbuddy.service.FIleWriter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

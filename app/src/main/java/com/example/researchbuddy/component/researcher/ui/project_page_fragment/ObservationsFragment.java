@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.researchbuddy.databinding.FragmentObservationsBinding;
 import com.example.researchbuddy.model.PageViewModel;
+import com.example.researchbuddy.model.ProjectModel;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -36,6 +37,7 @@ public class ObservationsFragment extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentObservationsBinding binding;
     private Context mContext;
+    private ProjectModel project;
 
     private String TAG = "MainActivity";
     private static int CAMERA_PERMISSION_CODE = 100;
@@ -43,11 +45,12 @@ public class ObservationsFragment extends Fragment {
     private Uri videoPath;
 
     // todo: bind with project
-    public static ObservationsFragment newInstance(Context mContext,int index) {
+    public static ObservationsFragment newInstance(Context mContext, int index, ProjectModel project) {
         ObservationsFragment fragment = new ObservationsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.mContext = mContext;
+        fragment.project = project;
 //        fragment.setArguments(bundle);
         return fragment;
     }
@@ -99,7 +102,7 @@ public class ObservationsFragment extends Fragment {
         return root;
     }
 
-
+    // video
     public void recordVideoButtonPressed(View view) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         startActivityForResult(intent, VIDEO_RECORD_CODE);

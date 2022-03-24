@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.CollectionTypes;
+import com.example.researchbuddy.service.FIleWriter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -51,6 +53,9 @@ public class ResearcherHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_researcher_home);
+
+        //create project folder if not exits
+        FIleWriter.writeFolder(this, this,"Projects");
 
         //action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -80,6 +85,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         Log.d(TAG, "Project fetching");
 
         Context context = this;
+        Activity activity = this;
 
         projectRecView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
@@ -99,7 +105,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                                 project.setProjectId(document.getId());
                                 projects.add(project);
                                 Log.d(TAG, project.toString());
-
+                                FIleWriter.writeFolder(context, activity,"Projects/" + project.getProjectName());
                             }
 
                         }
