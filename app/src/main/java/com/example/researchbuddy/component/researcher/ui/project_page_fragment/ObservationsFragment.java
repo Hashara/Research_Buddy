@@ -27,6 +27,9 @@ import com.example.researchbuddy.databinding.FragmentObservationsBinding;
 import com.example.researchbuddy.model.PageViewModel;
 import com.example.researchbuddy.model.ProjectModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -39,12 +42,14 @@ public class ObservationsFragment extends Fragment {
     private Context mContext;
     private ProjectModel project;
 
-    private String TAG = "MainActivity";
+    private String TAG = "ObservationsFragment";
     private static int CAMERA_PERMISSION_CODE = 100;
     private static int VIDEO_RECORD_CODE = 101;
+    private static int IMAGE_CAPTURE_CODE = 102;
     private Uri videoPath;
+    private Uri imagePath;
 
-    // todo: bind with project
+
     public static ObservationsFragment newInstance(Context mContext, int index, ProjectModel project) {
         ObservationsFragment fragment = new ObservationsFragment();
         Bundle bundle = new Bundle();
@@ -99,13 +104,36 @@ public class ObservationsFragment extends Fragment {
             recordVideoButtonPressed(view);
         });
 
+        btn_add_image.setOnClickListener(view -> {
+            captureImageOnButtonPressed(view);
+        });
+
+
         return root;
     }
 
     // video
-    public void recordVideoButtonPressed(View view) {
+    private void recordVideoButtonPressed(View view) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//        videoPath = Uri.fromFile(mContext.getExternalFilesDir("Projects/" + project.getProjectName() + "/videos/" + getFileName() + ".mp4" ));
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoPath);
+        // todo: change video path
         startActivityForResult(intent, VIDEO_RECORD_CODE);
+    }
+
+    private String getFileName(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+        Date dt = new Date();
+        return sdf.format(dt);
+    }
+
+    //image
+    private void captureImageOnButtonPressed(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        videoPath = Uri.fromFile(mContext.getExternalFilesDir("Projects/" + project.getProjectName() + "/videos/" + getFileName() + ".mp4" ));
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoPath);
+        // todo: change video path
+        startActivityForResult(intent, IMAGE_CAPTURE_CODE);
     }
 
     private void getCameraPermission() {
@@ -124,6 +152,7 @@ public class ObservationsFragment extends Fragment {
 
         if (requestCode == VIDEO_RECORD_CODE){
             if (resultCode == RESULT_OK){
+
                 videoPath = data.getData();
                 Log.d(TAG, "video is recorded and available at path" + videoPath);
 
@@ -132,6 +161,19 @@ public class ObservationsFragment extends Fragment {
                 Log.d(TAG, "Recording video is cancelled");
             } else{
                 Log.d(TAG, "Recording video has got some error");
+            }
+        }
+        else if (requestCode == CAMERA_PERMISSION_CODE){
+            if (resultCode == RESULT_OK){
+
+                imagePath = data.getData();
+                Log.d(TAG, "image is saved at" + imagePath);
+
+            }
+            else if(resultCode == RESULT_CANCELED){
+                Log.d(TAG, "Capturing image is cancelled");
+            } else{
+                Log.d(TAG, "Capturing image has got some error");
             }
         }
     }
