@@ -9,7 +9,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 ;
 import com.example.researchbuddy.R;
@@ -35,6 +37,8 @@ public class AudioCaptureActivity extends AppCompatActivity {
     private ActivityAudioCaptureBinding binding;
     private String TAG= "AudioCaptureActivity";
 
+    private Chronometer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class AudioCaptureActivity extends AppCompatActivity {
 
     private void initViews() {
         record_btn = findViewById(R.id.record_btn);
+        timer = findViewById(R.id.record_timer);
+
 
         record_btn.setOnClickListener(view1 -> {
             if (isRecording) {
@@ -73,15 +79,18 @@ public class AudioCaptureActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void stopRecording() {
+        timer.stop();
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
     }
 
     private void startRecording() {
+        timer.setBase(SystemClock.elapsedRealtime());
         String recordPath = this.getExternalFilesDir("/Projects/" + project.getProjectName() + "/Audios/").getAbsolutePath();
         recordFile = getFileName() + ".3gp";
 
@@ -99,6 +108,7 @@ public class AudioCaptureActivity extends AppCompatActivity {
         }
 
         mediaRecorder.start();
+        timer.start();
     }
 
     private boolean checkPermissions() {
