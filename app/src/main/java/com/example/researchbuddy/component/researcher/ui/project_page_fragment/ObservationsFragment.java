@@ -23,6 +23,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.researchbuddy.component.researcher.AudioCaptureActivity;
+import com.example.researchbuddy.component.researcher.ProjectPageActivity;
 import com.example.researchbuddy.databinding.FragmentObservationsBinding;
 import com.example.researchbuddy.model.PageViewModel;
 import com.example.researchbuddy.model.ProjectModel;
@@ -46,6 +48,7 @@ public class ObservationsFragment extends Fragment {
     private static int CAMERA_PERMISSION_CODE = 100;
     private static int VIDEO_RECORD_CODE = 101;
     private static int IMAGE_CAPTURE_CODE = 102;
+    private static int MICROPHONE_RECORD_CODE = 103;
     private Uri videoPath;
     private Uri imagePath;
 
@@ -91,15 +94,6 @@ public class ObservationsFragment extends Fragment {
             Log.d(TAG, "No camera is detected");
         }
 
-/*        final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
-
-        //todo: add on click listeners
         btn_add_video.setOnClickListener(view -> {
             recordVideoButtonPressed(view);
         });
@@ -108,6 +102,9 @@ public class ObservationsFragment extends Fragment {
             captureImageOnButtonPressed(view);
         });
 
+        btn_add_audio.setOnClickListener(view -> {
+            recordAudioOnButtonPressed();
+        });
 
         return root;
     }
@@ -132,8 +129,16 @@ public class ObservationsFragment extends Fragment {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        videoPath = Uri.fromFile(mContext.getExternalFilesDir("Projects/" + project.getProjectName() + "/videos/" + getFileName() + ".mp4" ));
 //        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoPath);
-        // todo: change video path
+        // todo: change image saving path
         startActivityForResult(intent, IMAGE_CAPTURE_CODE);
+    }
+
+    //audio
+    private void recordAudioOnButtonPressed(){
+        // todo: implement this
+        Intent intent = new Intent(mContext, AudioCaptureActivity.class);
+        intent.putExtra("project", project);
+        mContext.startActivity(intent);
     }
 
     private void getCameraPermission() {
