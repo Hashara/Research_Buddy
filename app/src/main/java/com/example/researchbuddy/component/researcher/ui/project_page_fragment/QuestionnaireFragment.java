@@ -27,6 +27,7 @@ public class QuestionnaireFragment extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentQuestionnariesBinding binding;
     private Context context;
+    private ProjectModel project;
 
     // todo: bind with project
     public static QuestionnaireFragment newInstance(Context context, int index, ProjectModel project) {
@@ -35,6 +36,7 @@ public class QuestionnaireFragment extends Fragment {
         bundle.putInt(ARG_SECTION_NUMBER, index);
 //        fragment.setArguments(bundle);
         fragment.context = context;
+        fragment.project = project;
         return fragment;
     }
 
@@ -74,6 +76,7 @@ public class QuestionnaireFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, FormCreateActivity.class);
+                intent.putExtra("project", project);
                 context.startActivity(intent);
             }
         });

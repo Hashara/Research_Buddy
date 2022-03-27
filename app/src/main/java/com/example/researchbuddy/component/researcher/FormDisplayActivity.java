@@ -17,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.db.FormDocument;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FormDisplayActivity extends AppCompatActivity {
 
@@ -29,6 +31,10 @@ public class FormDisplayActivity extends AppCompatActivity {
     private TextView txt_form_description;
 
     private LinearLayout linear_layout_parent;
+
+    private FloatingActionButton btn_edit;
+    private FloatingActionButton btn_save;
+    private FloatingActionButton btn_publish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +58,34 @@ public class FormDisplayActivity extends AppCompatActivity {
         txt_form_title.setText(form.getTitle());
         txt_form_description.setText(form.getDescription());
 
+        btn_publish = findViewById(R.id.btn_publish);
+        btn_edit = findViewById(R.id.btn_add_question);
+        btn_save = findViewById(R.id.btn_save_draft);
+
         createFormItemUI();
+
+        // on click listeners
+        btn_edit.setOnClickListener(view -> {
+            // todo: back
+        });
+
+        btn_publish.setOnClickListener(view -> {
+            form.setPublished(true);
+            FormDocument formDocument = new FormDocument();
+            formDocument.onCreateForm(form, this, true, btn_publish, btn_save);
+        });
+
+        btn_save.setOnClickListener(view -> {
+            form.setPublished(false);
+            FormDocument formDocument = new FormDocument();
+            formDocument.onCreateForm(form, this, false, btn_publish, btn_save);
+        });
     }
 
     private void createFormItemUI() {
 
-        for (FormItemModel formItem:
-             form.getItems()) {
+        for (FormItemModel formItem :
+                form.getItems()) {
 
 
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,7 +97,7 @@ public class FormDisplayActivity extends AppCompatActivity {
 
             question.setText(formItem.getQuestion());
 
-            switch (formItem.getType()){
+            switch (formItem.getType()) {
                 case TEXT:
                     EditText answer_text = new EditText(this);
                     answer_text.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -80,7 +107,7 @@ public class FormDisplayActivity extends AppCompatActivity {
                 case MULTIPLE_CHOICE:
                     RadioGroup answer_radio_group = new RadioGroup(this);
 
-                    for(String choice: formItem.getAnswerList()){
+                    for (String choice : formItem.getAnswerList()) {
                         RadioButton radio_btn = new RadioButton(this);
                         radio_btn.setText(choice);
 //                        radio_btn.setId(i + 100);
@@ -100,7 +127,7 @@ public class FormDisplayActivity extends AppCompatActivity {
                     break;
 
                 case CHECK_BOXES:
-                    for(String choice: formItem.getAnswerList()){
+                    for (String choice : formItem.getAnswerList()) {
                         CheckBox check_box = new CheckBox(this);
                         check_box.setText(choice);
 

@@ -20,10 +20,15 @@ import android.widget.TextView;
 import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.component.auth.LoginActivity;
+import com.example.researchbuddy.databinding.ActivityAudioCaptureBinding;
+import com.example.researchbuddy.databinding.ActivityFormCreateBinding;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormItemType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -42,14 +47,26 @@ public class FormCreateActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private CardView title_card;
+    private ProjectModel project;
 
+    private ActivityFormCreateBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_create);
 
-        initViews();
+        binding = ActivityFormCreateBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            project = (ProjectModel) getIntent().getSerializableExtra("project");
+            Log.d(TAG, project.toString());
+            initViews();
+
+        }
+
 
         // todo: get data from ui
 
@@ -85,17 +102,9 @@ public class FormCreateActivity extends AppCompatActivity {
         addFormItem();
     }
 
-//
-//    private void loadFormItems() {
-//        Log.d(TAG, "creating form views");
-//
-//
+
 //        // todo: get from database if available
-//        FormModel formItem1 = new FormModel("TEST");
-//        formItem1.setPosition(formItems.size());
-//        formItems.add(formItem1);
-//
-//    }
+
 
     public void addFormItem() {
 
@@ -173,11 +182,11 @@ public class FormCreateActivity extends AppCompatActivity {
             switch (checkedRadioId) {
                 case R.id.radio_checkboxes:
                     formItemModel.setType(FormItemType.CHECK_BOXES);
-                    formItemModel.setAnswerList(txt_answer_list.getText().toString());
+                    formItemModel.setAnswerListFromString(txt_answer_list.getText().toString());
                     break;
                 case R.id.radio_multiple_choice:
                     formItemModel.setType(FormItemType.MULTIPLE_CHOICE);
-                    formItemModel.setAnswerList(txt_answer_list.getText().toString());
+                    formItemModel.setAnswerListFromString(txt_answer_list.getText().toString());
                     break;
                 case R.id.radio_text:
                     formItemModel.setType(FormItemType.TEXT);
@@ -195,7 +204,8 @@ public class FormCreateActivity extends AppCompatActivity {
         String formTitle = edt_txt_form_title.getText().toString();
         String formDescription = edt_from_description.getText().toString();
         FormModel form = new FormModel(formTitle, formDescription, formItems);
-
+        form.setProjectId(project.getProjectId());
+        form.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //        Log.d(TAG, form.toString());
         // pass object to next activity
         Intent intent = new Intent(this, FormDisplayActivity.class);

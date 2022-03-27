@@ -52,7 +52,7 @@ public class FormItemModel implements Serializable {
         this.answerList = answerList;
     }
 
-    public void setAnswerList(String answerList) {
+    public void setAnswerListFromString(String answerList) {
         this.answerList =  new ArrayList<String>(Arrays.asList(answerList.split("\\s*;\\s*")));
     }
 
