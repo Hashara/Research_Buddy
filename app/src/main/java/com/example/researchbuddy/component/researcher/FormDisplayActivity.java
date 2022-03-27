@@ -3,6 +3,7 @@ package com.example.researchbuddy.component.researcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.example.researchbuddy.R;
 import com.example.researchbuddy.db.FormDocument;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.ProjectModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FormDisplayActivity extends AppCompatActivity {
@@ -35,6 +37,9 @@ public class FormDisplayActivity extends AppCompatActivity {
     private FloatingActionButton btn_edit;
     private FloatingActionButton btn_save;
     private FloatingActionButton btn_publish;
+    private FloatingActionButton btn_home;
+
+    private ProjectModel project;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,7 @@ public class FormDisplayActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             form = (FormModel) getIntent().getSerializableExtra("form");
+            project = (ProjectModel) getIntent().getSerializableExtra("project");
             initViews();
         }
         Log.d(TAG, form.toString());
@@ -61,24 +67,32 @@ public class FormDisplayActivity extends AppCompatActivity {
         btn_publish = findViewById(R.id.btn_publish);
         btn_edit = findViewById(R.id.btn_add_question);
         btn_save = findViewById(R.id.btn_save_draft);
+        btn_home = findViewById(R.id.btn_home);
 
         createFormItemUI();
 
         // on click listeners
         btn_edit.setOnClickListener(view -> {
-            // todo: back
+            // back
+            finish();
         });
 
         btn_publish.setOnClickListener(view -> {
             form.setPublished(true);
             FormDocument formDocument = new FormDocument();
-            formDocument.onCreateForm(form, this, true, btn_publish, btn_save);
+            formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
         });
 
         btn_save.setOnClickListener(view -> {
             form.setPublished(false);
             FormDocument formDocument = new FormDocument();
-            formDocument.onCreateForm(form, this, false, btn_publish, btn_save);
+            formDocument.onCreateForm(form, this, false, btn_publish, btn_save, btn_home);
+        });
+
+        btn_home.setOnClickListener(view -> {
+            Intent intent = new Intent(FormDisplayActivity.this, ProjectPageActivity.class);
+            intent.putExtra("project", project);
+            startActivity(intent);
         });
     }
 

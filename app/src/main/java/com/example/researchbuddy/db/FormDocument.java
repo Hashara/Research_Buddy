@@ -21,23 +21,25 @@ public class FormDocument {
     private String TAG = "FormDocument";
 
     public void onCreateForm(FormModel formModel, Context context, boolean isPublishing, FloatingActionButton btn_publish,
-                             FloatingActionButton btn_save) {
-        Log.d(TAG,formModel.getFormId());
+                             FloatingActionButton btn_save, FloatingActionButton btn_home) {
+        Log.d(TAG, formModel.getFormId());
         db.collection("forms")
                 .document(formModel.getFormId())
                 .set(formModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        if (isPublishing){
+                        if (isPublishing) {
                             Log.d(TAG, "Form published successfully");
                             Toast.makeText(context, "Form published successfully", Toast.LENGTH_SHORT).show();
                             btn_publish.setVisibility(View.GONE);
                             btn_save.setVisibility(View.GONE);
-                        }else {
+                            btn_home.setVisibility(View.VISIBLE);
+                        } else {
                             Log.d(TAG, "Form added successfully");
                             Toast.makeText(context, "Form added successfully", Toast.LENGTH_SHORT).show();
                             btn_save.setVisibility(View.GONE);
+                            btn_home.setVisibility(View.VISIBLE);
 
                         }
 

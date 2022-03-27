@@ -210,7 +210,7 @@ public class FormCreateActivity extends AppCompatActivity {
         // pass object to next activity
         Intent intent = new Intent(this, FormDisplayActivity.class);
         intent.putExtra("form", form);
-
+        intent.putExtra("project", project);
 
         progressBar.setVisibility(View.GONE);
         linear_layout_parent.setVisibility(View.VISIBLE);
