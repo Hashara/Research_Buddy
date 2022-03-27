@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.researchbuddy.component.researcher.FormCreateActivity;
 import com.example.researchbuddy.databinding.FragmentQuestionnariesBinding;
 import com.example.researchbuddy.model.PageViewModel;
+import com.example.researchbuddy.model.ProjectModel;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,7 +29,7 @@ public class QuestionnaireFragment extends Fragment {
     private Context context;
 
     // todo: bind with project
-    public static QuestionnaireFragment newInstance(Context context, int index) {
+    public static QuestionnaireFragment newInstance(Context context, int index, ProjectModel project) {
         QuestionnaireFragment fragment = new QuestionnaireFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);

@@ -36,7 +36,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
         notifyDataSetChanged();
     }
 
-    public void addProject(ProjectModel project){
+    public void addProject(ProjectModel project) {
         projects.add(project);
         notifyItemInserted(projects.size() - 1);
     }
@@ -55,16 +55,15 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo: get project details and passsed to project page
                 Log.d(TAG, "Clicked on " + projects.get(position).getProjectName());
-//                Intent intent = new Intent(context, ProjectPageActivity.class);
                 Intent intent = new Intent(context, ProjectPageActivity.class);
+                intent.putExtra("project", projects.get(position));
                 context.startActivity(intent);
-//                Toast.makeText(context, projects.get(position).getProjectName() + " selected", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
 
     @Override
     public int getItemCount() {
