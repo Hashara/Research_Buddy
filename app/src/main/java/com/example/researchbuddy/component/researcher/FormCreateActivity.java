@@ -17,18 +17,15 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
-import com.example.researchbuddy.component.auth.LoginActivity;
-import com.example.researchbuddy.databinding.ActivityAudioCaptureBinding;
 import com.example.researchbuddy.databinding.ActivityFormCreateBinding;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormItemType;
+import com.example.researchbuddy.model.type.FormStatusType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -211,6 +208,8 @@ public class FormCreateActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FormDisplayActivity.class);
         intent.putExtra("form", form);
         intent.putExtra("project", project);
+        intent.putExtra("formStatusType", FormStatusType.BUILDING);
+
 
         progressBar.setVisibility(View.GONE);
         linear_layout_parent.setVisibility(View.VISIBLE);

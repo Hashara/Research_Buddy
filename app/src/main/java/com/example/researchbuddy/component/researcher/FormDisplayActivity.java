@@ -22,6 +22,7 @@ import com.example.researchbuddy.db.FormDocument;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.FormStatusType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FormDisplayActivity extends AppCompatActivity {
@@ -38,8 +39,11 @@ public class FormDisplayActivity extends AppCompatActivity {
     private FloatingActionButton btn_save;
     private FloatingActionButton btn_publish;
     private FloatingActionButton btn_home;
+    private FloatingActionButton btn_download;
+    private FloatingActionButton btn_back;
 
     private ProjectModel project;
+    private FormStatusType formStatusType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class FormDisplayActivity extends AppCompatActivity {
         if (bundle != null) {
             form = (FormModel) getIntent().getSerializableExtra("form");
             project = (ProjectModel) getIntent().getSerializableExtra("project");
+            formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
+
             initViews();
         }
         Log.d(TAG, form.toString());
@@ -68,32 +74,112 @@ public class FormDisplayActivity extends AppCompatActivity {
         btn_edit = findViewById(R.id.btn_add_question);
         btn_save = findViewById(R.id.btn_save_draft);
         btn_home = findViewById(R.id.btn_home);
+        btn_back = findViewById(R.id.btn_back_btn);
+        btn_download = findViewById(R.id.btn_download_responses);
 
         createFormItemUI();
 
-        // on click listeners
-        btn_edit.setOnClickListener(view -> {
-            // back
-            finish();
-        });
+        switch (formStatusType) {
+            case BUILDING:
+                btn_back.setVisibility(View.GONE);
+                btn_home.setVisibility(View.GONE);
+                btn_download.setVisibility(View.GONE);
+                // on click listeners
+                btn_edit.setOnClickListener(view -> {
+                    // back
+                    finish();
+                });
 
-        btn_publish.setOnClickListener(view -> {
-            form.setPublished(true);
-            FormDocument formDocument = new FormDocument();
-            formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
-        });
+                btn_publish.setOnClickListener(view -> {
+                    form.setPublished(true);
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
+                });
 
-        btn_save.setOnClickListener(view -> {
-            form.setPublished(false);
-            FormDocument formDocument = new FormDocument();
-            formDocument.onCreateForm(form, this, false, btn_publish, btn_save, btn_home);
-        });
+                btn_save.setOnClickListener(view -> {
+                    form.setPublished(false);
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onCreateForm(form, this, false, btn_publish, btn_save, btn_home);
+                });
 
-        btn_home.setOnClickListener(view -> {
-            Intent intent = new Intent(FormDisplayActivity.this, ProjectPageActivity.class);
-            intent.putExtra("project", project);
-            startActivity(intent);
-        });
+                btn_home.setOnClickListener(view -> {
+                    Intent intent = new Intent(FormDisplayActivity.this, ProjectPageActivity.class);
+                    intent.putExtra("project", project);
+                    startActivity(intent);
+                });
+                break;
+            case DRAFT:
+                btn_back.setVisibility(View.GONE);
+                btn_save.setVisibility(View.GONE);
+                btn_download.setVisibility(View.GONE);
+                btn_home.setVisibility(View.VISIBLE);
+
+                // on click listeners
+                btn_edit.setOnClickListener(view -> {
+                    // back
+                    // todo: redirect to edit page
+                    finish();
+                });
+
+                btn_publish.setOnClickListener(view -> {
+                    form.setPublished(true);
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
+                });
+
+
+                btn_home.setOnClickListener(view -> {
+                    finish();
+                });
+                break;
+            case PUBLISHED:
+                btn_edit.setVisibility(View.GONE);
+                btn_back.setVisibility(View.VISIBLE);
+                btn_save.setVisibility(View.GONE);
+                btn_home.setVisibility(View.VISIBLE);
+                btn_publish.setVisibility(View.GONE);
+                btn_download.setVisibility(View.VISIBLE);
+                // on click listeners
+                btn_back.setOnClickListener(view -> {
+                    // back
+                    finish();
+                });
+
+                btn_download.setOnClickListener(view -> {
+                    // todo: download responses
+                });
+
+                btn_home.setOnClickListener(view -> {
+                    finish();
+                });
+                break;
+            case FILLING:
+                btn_edit.setVisibility(View.GONE);
+                btn_back.setVisibility(View.VISIBLE);
+                btn_save.setVisibility(View.GONE);
+                btn_home.setVisibility(View.VISIBLE);
+                btn_publish.setVisibility(View.VISIBLE);
+                btn_download.setVisibility(View.GONE);
+                // on click listeners
+                btn_back.setOnClickListener(view -> {
+                    // back
+                    finish();
+                });
+
+                btn_publish.setOnClickListener(view -> {
+                    // todo: send response to db
+                });
+
+                btn_home.setOnClickListener(view -> {
+                    finish();
+                });
+                break;
+            default:
+                break;
+
+        }
+
+
     }
 
     private void createFormItemUI() {

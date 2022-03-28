@@ -124,7 +124,7 @@ public class FormPageActivity extends AppCompatActivity {
                                     }
 
                                 }
-                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
+                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project, FormStatusType.DRAFT);
                                 adapter.setForms(forms);
 
                                 formRecView.setAdapter(adapter);
@@ -158,7 +158,7 @@ public class FormPageActivity extends AppCompatActivity {
                                     }
 
                                 }
-                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
+                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project, FormStatusType.PUBLISHED);
                                 adapter.setForms(forms);
 
                                 formRecView.setAdapter(adapter);
@@ -191,7 +191,7 @@ public class FormPageActivity extends AppCompatActivity {
                                     }
 
                                 }
-                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
+                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project, FormStatusType.FILLING);
                                 adapter.setForms(forms);
 
                                 formRecView.setAdapter(adapter);

@@ -17,6 +17,7 @@ import com.example.researchbuddy.R;
 import com.example.researchbuddy.component.researcher.FormDisplayActivity;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.FormStatusType;
 
 import java.util.ArrayList;
 
@@ -27,10 +28,12 @@ public class FormRecViewAdapter extends RecyclerView.Adapter<FormRecViewAdapter.
 
     private Context context;
     private ProjectModel project;
+    private FormStatusType formStatusType;
 
-    public FormRecViewAdapter(Context context, ProjectModel project) {
+    public FormRecViewAdapter(Context context, ProjectModel project, FormStatusType formStatusType) {
         this.context = context;
         this.project = project;
+        this.formStatusType = formStatusType;
     }
 
     public void setForms(ArrayList<FormModel> forms) {
@@ -63,6 +66,7 @@ public class FormRecViewAdapter extends RecyclerView.Adapter<FormRecViewAdapter.
                 Intent intent = new Intent(context, FormDisplayActivity.class);
                 intent.putExtra("project", project);
                 intent.putExtra("form", forms.get(position));
+                intent.putExtra("formStatusType", formStatusType);
                 context.startActivity(intent);
             }
         });
