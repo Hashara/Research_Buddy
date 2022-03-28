@@ -45,4 +45,5 @@
     <string name="add_audio">Add audio</string>
     <string name="new_call_recording">New call recording</string>
     <string name="view_call_recordings">View call recordings</string>
+    <string name="form_title">Form Title</string>
 </resources>

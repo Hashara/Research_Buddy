@@ -44,7 +44,6 @@ public class FormItemModel implements Serializable {
             answerList = null;
         } else {
             textAnswer = "";
-            answerList = new ArrayList<>();
         }
     }
 
