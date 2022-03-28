@@ -17,6 +17,7 @@ import com.example.researchbuddy.component.researcher.FormPageActivity;
 import com.example.researchbuddy.databinding.FragmentQuestionnariesBinding;
 import com.example.researchbuddy.model.PageViewModel;
 import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.FormStatusType;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -72,7 +73,6 @@ public class QuestionnaireFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
-        // todo: add on click listeners
         btn_create_form.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,12 +85,14 @@ public class QuestionnaireFragment extends Fragment {
         btn_view_draft_forms.setOnClickListener(view -> {
             Intent intent = new Intent(context, FormPageActivity.class);
             intent.putExtra("project", project);
+            intent.putExtra("formStatusType", FormStatusType.DRAFT);
             context.startActivity(intent);
         });
 
         btn_view_published_forms.setOnClickListener(view -> {
             Intent intent = new Intent(context, FormPageActivity.class);
             intent.putExtra("project", project);
+            intent.putExtra("formStatusType", FormStatusType.PUBLISHED);
             context.startActivity(intent);
         });
         return root;

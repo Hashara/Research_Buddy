@@ -23,6 +23,7 @@ import com.example.researchbuddy.databinding.ActivityFormPageBinding;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.FormStatusType;
 import com.example.researchbuddy.service.FIleWriter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,7 +46,9 @@ public class FormPageActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private View dialogView;
     private ArrayList<FormModel> forms = new ArrayList<>();
+
     private ProjectModel project;
+    private FormStatusType formStatusType;
 
     private ActivityFormPageBinding binding;
 
@@ -66,8 +69,8 @@ public class FormPageActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             project = (ProjectModel) getIntent().getSerializableExtra("project");
+            formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
 
-            // todo: add type : draft, published
             Log.d(TAG, project.toString());
             initViews();
             getForms();
@@ -100,37 +103,114 @@ public class FormPageActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         CollectionReference projectRef = FirebaseFirestore.getInstance().collection("forms");
-        projectRef
-                .whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-                        for (DocumentSnapshot document : documents) {
-                            if (document.exists()) {
-                                FormModel form = document.toObject(FormModel.class);
-                                Log.d(TAG, document.getId());
-                                form.setProjectId(document.getId());
-                                forms.add(form);
-                                Log.d(TAG, form.toString());
+
+        switch (formStatusType) {
+            case DRAFT:
+                projectRef
+                        .whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .whereEqualTo("published", false)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot document : documents) {
+                                    if (document.exists()) {
+                                        FormModel form = document.toObject(FormModel.class);
+                                        Log.d(TAG, document.getId());
+                                        form.setProjectId(document.getId());
+                                        forms.add(form);
+                                        Log.d(TAG, form.toString());
+                                    }
+
+                                }
+                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
+                                adapter.setForms(forms);
+
+                                formRecView.setAdapter(adapter);
+                                formRecView.setLayoutManager(new GridLayoutManager(context, 2));
+
                             }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.toString());
+                            }
+                        });
+                break;
+            case PUBLISHED:
+                projectRef
+                        .whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .whereEqualTo("published", true)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot document : documents) {
+                                    if (document.exists()) {
+                                        FormModel form = document.toObject(FormModel.class);
+                                        Log.d(TAG, document.getId());
+                                        form.setProjectId(document.getId());
+                                        forms.add(form);
+                                        Log.d(TAG, form.toString());
+                                    }
 
-                        }
-                        FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
-                        adapter.setForms(forms);
+                                }
+                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
+                                adapter.setForms(forms);
 
-                        formRecView.setAdapter(adapter);
-                        formRecView.setLayoutManager(new GridLayoutManager(context, 2));
+                                formRecView.setAdapter(adapter);
+                                formRecView.setLayoutManager(new GridLayoutManager(context, 2));
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.toString());
-                    }
-                });
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.toString());
+                            }
+                        });
+                break;
+            case FILLING:
+                projectRef
+                        .whereEqualTo("published", true)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot document : documents) {
+                                    if (document.exists()) {
+                                        FormModel form = document.toObject(FormModel.class);
+                                        Log.d(TAG, document.getId());
+                                        form.setProjectId(document.getId());
+                                        forms.add(form);
+                                        Log.d(TAG, form.toString());
+                                    }
+
+                                }
+                                FormRecViewAdapter adapter = new FormRecViewAdapter(context, project);
+                                adapter.setForms(forms);
+
+                                formRecView.setAdapter(adapter);
+                                formRecView.setLayoutManager(new GridLayoutManager(context, 2));
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.toString());
+                            }
+                        });
+                break;
+            default:
+                break;
+
+        }
+
 
         formRecView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
