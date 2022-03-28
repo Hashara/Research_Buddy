@@ -135,7 +135,6 @@ public class ObservationsFragment extends Fragment {
 
     //audio
     private void recordAudioOnButtonPressed(){
-        // todo: implement this
         Intent intent = new Intent(mContext, AudioCaptureActivity.class);
         intent.putExtra("project", project);
         mContext.startActivity(intent);

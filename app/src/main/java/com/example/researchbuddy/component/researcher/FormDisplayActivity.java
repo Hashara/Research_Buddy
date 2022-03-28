@@ -3,6 +3,7 @@ package com.example.researchbuddy.component.researcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.db.FormDocument;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.FormStatusType;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FormDisplayActivity extends AppCompatActivity {
 
@@ -30,6 +35,16 @@ public class FormDisplayActivity extends AppCompatActivity {
 
     private LinearLayout linear_layout_parent;
 
+    private FloatingActionButton btn_edit;
+    private FloatingActionButton btn_save;
+    private FloatingActionButton btn_publish;
+    private FloatingActionButton btn_home;
+    private FloatingActionButton btn_download;
+    private FloatingActionButton btn_back;
+
+    private ProjectModel project;
+    private FormStatusType formStatusType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +53,9 @@ public class FormDisplayActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             form = (FormModel) getIntent().getSerializableExtra("form");
+            project = (ProjectModel) getIntent().getSerializableExtra("project");
+            formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
+
             initViews();
         }
         Log.d(TAG, form.toString());
@@ -52,13 +70,127 @@ public class FormDisplayActivity extends AppCompatActivity {
         txt_form_title.setText(form.getTitle());
         txt_form_description.setText(form.getDescription());
 
+        btn_publish = findViewById(R.id.btn_publish);
+        btn_edit = findViewById(R.id.btn_add_question);
+        btn_save = findViewById(R.id.btn_save_draft);
+        btn_home = findViewById(R.id.btn_home);
+        btn_back = findViewById(R.id.btn_back_btn);
+        btn_download = findViewById(R.id.btn_download_responses);
+
         createFormItemUI();
+
+        switch (formStatusType) {
+            case BUILDING:
+                btn_back.setVisibility(View.GONE);
+                btn_home.setVisibility(View.GONE);
+                btn_download.setVisibility(View.GONE);
+                // on click listeners
+                btn_edit.setOnClickListener(view -> {
+                    // back
+                    finish();
+                });
+
+                btn_publish.setOnClickListener(view -> {
+                    form.setPublished(true);
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
+                });
+
+                btn_save.setOnClickListener(view -> {
+                    form.setPublished(false);
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onCreateForm(form, this, false, btn_publish, btn_save, btn_home);
+                });
+
+                btn_home.setOnClickListener(view -> {
+                    Intent intent = new Intent(FormDisplayActivity.this, ProjectPageActivity.class);
+                    intent.putExtra("project", project);
+                    startActivity(intent);
+                });
+                break;
+            case DRAFT:
+                btn_back.setVisibility(View.GONE);
+                btn_save.setVisibility(View.GONE);
+                btn_download.setVisibility(View.GONE);
+                btn_home.setVisibility(View.VISIBLE);
+
+                // on click listeners
+                btn_edit.setOnClickListener(view -> {
+
+                    //  redirect to edit page
+                    Log.d(TAG, "onclick listener btn edit");
+                    Intent intent = new Intent(this, FormCreateActivity.class);
+                    intent.putExtra("project", project);
+                    intent.putExtra("formStatusType", FormStatusType.DRAFT);
+                    intent.putExtra("form", form);
+                    startActivity(intent);
+                });
+
+                btn_publish.setOnClickListener(view -> {
+                    form.setPublished(true);
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
+                });
+
+
+                btn_home.setOnClickListener(view -> {
+                    finish();
+                });
+                break;
+            case PUBLISHED:
+                btn_edit.setVisibility(View.GONE);
+                btn_back.setVisibility(View.VISIBLE);
+                btn_save.setVisibility(View.GONE);
+                btn_home.setVisibility(View.VISIBLE);
+                btn_publish.setVisibility(View.GONE);
+                btn_download.setVisibility(View.VISIBLE);
+                // on click listeners
+                btn_back.setOnClickListener(view -> {
+                    // back
+                    finish();
+                });
+
+                btn_download.setOnClickListener(view -> {
+                    // todo: download responses
+                });
+
+                btn_home.setOnClickListener(view -> {
+                    finish();
+                });
+                break;
+            case FILLING:
+                btn_edit.setVisibility(View.GONE);
+                btn_back.setVisibility(View.VISIBLE);
+                btn_save.setVisibility(View.GONE);
+                btn_home.setVisibility(View.VISIBLE);
+                btn_publish.setVisibility(View.VISIBLE);
+                btn_download.setVisibility(View.GONE);
+                // on click listeners
+                btn_back.setOnClickListener(view -> {
+                    // back
+                    finish();
+                });
+
+                btn_publish.setOnClickListener(view -> {
+                    // todo: send response to db
+                });
+
+                btn_home.setOnClickListener(view -> {
+                    finish();
+                });
+                break;
+            default:
+                break;
+
+        }
+
+
     }
 
     private void createFormItemUI() {
 
-        for (FormItemModel formItem:
-             form.getItems()) {
+        for (FormItemModel formItem :
+                form.getItems()) {
 
 
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,7 +202,7 @@ public class FormDisplayActivity extends AppCompatActivity {
 
             question.setText(formItem.getQuestion());
 
-            switch (formItem.getType()){
+            switch (formItem.getType()) {
                 case TEXT:
                     EditText answer_text = new EditText(this);
                     answer_text.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -80,7 +212,7 @@ public class FormDisplayActivity extends AppCompatActivity {
                 case MULTIPLE_CHOICE:
                     RadioGroup answer_radio_group = new RadioGroup(this);
 
-                    for(String choice: formItem.getAnswerList()){
+                    for (String choice : formItem.getAnswerList()) {
                         RadioButton radio_btn = new RadioButton(this);
                         radio_btn.setText(choice);
 //                        radio_btn.setId(i + 100);
@@ -100,7 +232,7 @@ public class FormDisplayActivity extends AppCompatActivity {
                     break;
 
                 case CHECK_BOXES:
-                    for(String choice: formItem.getAnswerList()){
+                    for (String choice : formItem.getAnswerList()) {
                         CheckBox check_box = new CheckBox(this);
                         check_box.setText(choice);
 
