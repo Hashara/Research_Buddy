@@ -116,9 +116,14 @@ public class FormDisplayActivity extends AppCompatActivity {
 
                 // on click listeners
                 btn_edit.setOnClickListener(view -> {
-                    // back
-                    // todo: redirect to edit page
-                    finish();
+
+                    //  redirect to edit page
+                    Log.d(TAG, "onclick listener btn edit");
+                    Intent intent = new Intent(this, FormCreateActivity.class);
+                    intent.putExtra("project", project);
+                    intent.putExtra("formStatusType", FormStatusType.DRAFT);
+                    intent.putExtra("form", form);
+                    startActivity(intent);
                 });
 
                 btn_publish.setOnClickListener(view -> {

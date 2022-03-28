@@ -31,12 +31,10 @@ public class QuestionnaireFragment extends Fragment {
     private Context context;
     private ProjectModel project;
 
-    // todo: bind with project
     public static QuestionnaireFragment newInstance(Context context, int index, ProjectModel project) {
         QuestionnaireFragment fragment = new QuestionnaireFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
-//        fragment.setArguments(bundle);
         fragment.context = context;
         fragment.project = project;
         return fragment;
@@ -66,18 +64,13 @@ public class QuestionnaireFragment extends Fragment {
         final Button btn_view_draft_forms = binding.btnViewDraftForms;
         final Button btn_view_published_forms = binding.btnViewPublishedForms;
 
-/*        final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
+        // on click listeners
         btn_create_form.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, FormCreateActivity.class);
                 intent.putExtra("project", project);
+                intent.putExtra("formStatusType", FormStatusType.BUILDING);
                 context.startActivity(intent);
             }
         });
