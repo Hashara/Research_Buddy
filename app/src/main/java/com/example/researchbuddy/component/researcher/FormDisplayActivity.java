@@ -189,6 +189,7 @@ public class FormDisplayActivity extends AppCompatActivity {
                     Log.d(TAG, "sending form responses");
                     FormResponseModel response = new FormResponseModel();
                     response.setForm(form);
+                    response.setFormId(form.getFormId());
                     response.setParticipantId(FirebaseAuth.getInstance().getUid());
 
                     FormDocument formDocument = new FormDocument();
