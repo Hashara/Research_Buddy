@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,13 +20,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.db.FormDocument;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.FormResponseModel;
 import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormStatusType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FormDisplayActivity extends AppCompatActivity {
 
@@ -53,8 +62,13 @@ public class FormDisplayActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             form = (FormModel) getIntent().getSerializableExtra("form");
-            project = (ProjectModel) getIntent().getSerializableExtra("project");
             formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
+
+            if (formStatusType.equals(FormStatusType.FILLING)) {
+
+            } else {
+                project = (ProjectModel) getIntent().getSerializableExtra("project");
+            }
 
             initViews();
         }
@@ -172,7 +186,13 @@ public class FormDisplayActivity extends AppCompatActivity {
                 });
 
                 btn_publish.setOnClickListener(view -> {
-                    // todo: send response to db
+                    Log.d(TAG, "sending form responses");
+                    FormResponseModel response = new FormResponseModel();
+                    response.setForm(form);
+                    response.setParticipantId(FirebaseAuth.getInstance().getUid());
+
+                    FormDocument formDocument = new FormDocument();
+                    formDocument.onResponseForm(response, this, this, btn_publish);
                 });
 
                 btn_home.setOnClickListener(view -> {
@@ -207,6 +227,27 @@ public class FormDisplayActivity extends AppCompatActivity {
                     EditText answer_text = new EditText(this);
                     answer_text.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                     answer_layout.addView((View) answer_text);
+
+                    if (formStatusType.equals(FormStatusType.FILLING)) {
+                        answer_text.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                if (charSequence.length() != 0) {
+                                    Log.d(TAG, charSequence.toString());
+                                    formItem.setTextAnswer(charSequence.toString());
+                                }
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+                            }
+                        });
+                    }
                     break;
 
                 case MULTIPLE_CHOICE:
@@ -219,15 +260,17 @@ public class FormDisplayActivity extends AppCompatActivity {
                         answer_radio_group.addView(radio_btn);
                     }
 
-                    // todo: add this when form filling
-/*                    answer_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                            RadioButton radioButton = (RadioButton) findViewById(i);
+                    if (formStatusType.equals(FormStatusType.FILLING)) {
 
-                            formItem.setTextAnswer(radioButton.getText().toString());
-                        }
-                    });*/
+                        answer_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                                RadioButton radioButton = (RadioButton) findViewById(i);
+
+                                formItem.setTextAnswer(radioButton.getText().toString());
+                            }
+                        });
+                    }
                     answer_layout.addView((View) answer_radio_group);
                     break;
 
@@ -239,6 +282,31 @@ public class FormDisplayActivity extends AppCompatActivity {
                         // todo: add onclick listener when form filling
                         answer_layout.addView((View) check_box);
 
+                        if (formStatusType.equals(FormStatusType.FILLING)) {
+                            check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                    if (b) {
+                                        // add to array
+                                        formItem.setTextAnswer(formItem.getTextAnswer() + ";" + check_box.getText().toString());
+
+                                    } else {
+                                        // remove from array
+                                        ArrayList<String> userAnswers = new ArrayList<String>(Arrays.asList(formItem.getTextAnswer().split("\\s*;\\s*")));
+                                        userAnswers.remove(check_box.getText().toString());
+
+                                        String s = "";
+
+                                        for (String answer :
+                                                userAnswers) {
+                                            s = s + answer + ";";
+                                        }
+
+                                        formItem.setTextAnswer(s);
+                                    }
+                                }
+                            });
+                        }
                     }
                     break;
                 default:

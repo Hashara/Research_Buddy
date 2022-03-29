@@ -68,10 +68,18 @@ public class FormPageActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            project = (ProjectModel) getIntent().getSerializableExtra("project");
             formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
 
-            Log.d(TAG, project.toString());
+            if (formStatusType.equals(FormStatusType.FILLING)){
+                initViews();
+
+            }
+            else{
+                project = (ProjectModel) getIntent().getSerializableExtra("project");
+                Log.d(TAG, project.toString());
+
+            }
+
             initViews();
             getForms();
 

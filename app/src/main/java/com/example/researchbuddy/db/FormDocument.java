@@ -1,5 +1,6 @@
 package com.example.researchbuddy.db;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.FormResponseModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,4 +56,30 @@ public class FormDocument {
                     }
                 });
     }
+
+    public void onResponseForm(FormResponseModel formResponseModel, Context context, Activity activity, FloatingActionButton btn_publish) {
+        Log.d(TAG, formResponseModel.getParticipantId() + formResponseModel.getForm().getFormId());
+        Log.d(TAG, formResponseModel.toString());
+        db.collection("responses")
+                .document(formResponseModel.getParticipantId() + formResponseModel.getForm().getFormId())
+                .set(formResponseModel)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Response added successfully", Toast.LENGTH_SHORT).show();
+                        btn_publish.setVisibility(View.GONE);
+                        activity.finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding Form : ", e);
+                        Toast.makeText(context, "Error adding Form", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+    }
+
+
 }

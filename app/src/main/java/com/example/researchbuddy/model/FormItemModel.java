@@ -44,8 +44,6 @@ public class FormItemModel implements Serializable {
         this.type = type;
         if (type.equals(FormItemType.TEXT)) {
             answerList = null;
-        } else {
-            textAnswer = "";
         }
     }
 
@@ -57,16 +55,6 @@ public class FormItemModel implements Serializable {
         this.answerList = new ArrayList<String>(Arrays.asList(answerList.split("\\s*;\\s*")));
     }
 
-    public String getStringAnswerList() {
-        String stringAnswerList = "";
-
-        for (String answer :
-                answerList) {
-            stringAnswerList = stringAnswerList + answer + ";";
-        }
-
-        return stringAnswerList;
-    }
 
     public void setTextAnswer(String textAnswer) {
         this.textAnswer = textAnswer;
@@ -92,9 +80,6 @@ public class FormItemModel implements Serializable {
     }
 
     public String getTextAnswer() {
-        if (!type.equals(FormItemType.TEXT)) {
-            textAnswer = "";
-        }
         return textAnswer;
     }
 
