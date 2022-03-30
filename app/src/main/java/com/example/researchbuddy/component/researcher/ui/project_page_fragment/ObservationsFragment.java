@@ -24,7 +24,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.researchbuddy.component.researcher.AudioCaptureActivity;
+import com.example.researchbuddy.component.researcher.FormDisplayActivity;
 import com.example.researchbuddy.component.researcher.ProjectPageActivity;
+import com.example.researchbuddy.component.researcher.VideoCaptureActivity;
 import com.example.researchbuddy.databinding.FragmentObservationsBinding;
 import com.example.researchbuddy.model.PageViewModel;
 import com.example.researchbuddy.model.ProjectModel;
@@ -32,9 +34,7 @@ import com.example.researchbuddy.model.ProjectModel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class ObservationsFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -46,10 +46,7 @@ public class ObservationsFragment extends Fragment {
 
     private String TAG = "ObservationsFragment";
     private static int CAMERA_PERMISSION_CODE = 100;
-    private static int VIDEO_RECORD_CODE = 101;
     private static int IMAGE_CAPTURE_CODE = 102;
-    private static int MICROPHONE_RECORD_CODE = 103;
-    private Uri videoPath;
     private Uri imagePath;
 
 
@@ -95,7 +92,8 @@ public class ObservationsFragment extends Fragment {
         }
 
         btn_add_video.setOnClickListener(view -> {
-            recordVideoButtonPressed(view);
+            recordVideoButtonPressed();
+
         });
 
         btn_add_image.setOnClickListener(view -> {
@@ -110,15 +108,13 @@ public class ObservationsFragment extends Fragment {
     }
 
     // video
-    private void recordVideoButtonPressed(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-//        videoPath = Uri.fromFile(mContext.getExternalFilesDir("Projects/" + project.getProjectName() + "/videos/" + getFileName() + ".mp4" ));
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoPath);
-        // todo: change video path
-        startActivityForResult(intent, VIDEO_RECORD_CODE);
+    private void recordVideoButtonPressed() {
+        Intent intent = new Intent(mContext, VideoCaptureActivity.class);
+        intent.putExtra("project", project);
+        mContext.startActivity(intent);
     }
 
-    private String getFileName(){
+    private String getFileName() {
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
         Date dt = new Date();
         return sdf.format(dt);
@@ -134,7 +130,7 @@ public class ObservationsFragment extends Fragment {
     }
 
     //audio
-    private void recordAudioOnButtonPressed(){
+    private void recordAudioOnButtonPressed() {
         Intent intent = new Intent(mContext, AudioCaptureActivity.class);
         intent.putExtra("project", project);
         mContext.startActivity(intent);
@@ -154,33 +150,20 @@ public class ObservationsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == VIDEO_RECORD_CODE){
-            if (resultCode == RESULT_OK){
-
-                videoPath = data.getData();
-                Log.d(TAG, "video is recorded and available at path" + videoPath);
-
-            }
-            else if(resultCode == RESULT_CANCELED){
-                Log.d(TAG, "Recording video is cancelled");
-            } else{
-                Log.d(TAG, "Recording video has got some error");
-            }
-        }
-        else if (requestCode == CAMERA_PERMISSION_CODE){
-            if (resultCode == RESULT_OK){
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (resultCode == RESULT_OK) {
 
                 imagePath = data.getData();
                 Log.d(TAG, "image is saved at" + imagePath);
 
-            }
-            else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 Log.d(TAG, "Capturing image is cancelled");
-            } else{
+            } else {
                 Log.d(TAG, "Capturing image has got some error");
             }
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

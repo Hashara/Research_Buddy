@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
         <activity
+            android:name=".component.researcher.VideoCaptureActivity"
+            android:exported="false" />
+        <activity
             android:name=".component.researcher.FormPageActivity"
             android:exported="false" />
         <activity
