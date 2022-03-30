@@ -18,9 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.db.FormDocument;
 import com.example.researchbuddy.model.FormItemModel;
@@ -28,9 +26,11 @@ import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.FormResponseModel;
 import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormStatusType;
+import com.example.researchbuddy.service.FileService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -166,6 +166,14 @@ public class FormDisplayActivity extends AppCompatActivity {
 
                 btn_download.setOnClickListener(view -> {
                     // todo: download responses
+                    FileService fileService = new FileService();
+                    try {
+                        fileService.exportEmailInCSV(this,
+                                "/Projects/" + project.getProjectName() + "/Forms", form.getFormId());
+
+                    } catch (IOException e) {
+                        Log.e(TAG, e.toString());
+                    }
                 });
 
                 btn_home.setOnClickListener(view -> {
@@ -280,7 +288,6 @@ public class FormDisplayActivity extends AppCompatActivity {
                         CheckBox check_box = new CheckBox(this);
                         check_box.setText(choice);
 
-                        // todo: add onclick listener when form filling
                         answer_layout.addView((View) check_box);
 
                         if (formStatusType.equals(FormStatusType.FILLING)) {
