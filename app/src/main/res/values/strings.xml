@@ -46,4 +46,6 @@
     <string name="new_call_recording">New call recording</string>
     <string name="view_call_recordings">View call recordings</string>
     <string name="form_title">Form Title</string>
+    <string name="phone_number">Phone number</string>
+    <string name="make_interview_call_title">Make an interview call</string>
 </resources>

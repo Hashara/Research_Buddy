@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/btn_create_form"
+        android:id="@+id/btn_create_recording"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -18,10 +18,10 @@
         android:text="@string/new_call_recording" />
 
     <Button
-        android:id="@+id/btn_view_draft_forms"
+        android:id="@+id/btn_view_recordings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_create_form"
+        android:layout_below="@id/btn_create_recording"
         android:layout_margin="10dp"
         android:drawableLeft="@drawable/ic_draft"
         android:gravity="left|center_vertical"
