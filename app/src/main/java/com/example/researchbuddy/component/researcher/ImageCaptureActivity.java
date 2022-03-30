@@ -89,10 +89,53 @@ public class ImageCaptureActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
-            Uri imgUri = saveImageToExternalStorage(getFileName(), photo);
-            if (imgUri != null) {
-                saveFile(getRealPathFromURI(imgUri));
+
+            String imageFileName = getFileName() + ".png";
+
+            String path = this.getExternalFilesDir("Projects/" + project.getProjectName() + "/Images/").getAbsolutePath() + "/" + imageFileName;
+
+            FileOutputStream fos = null;
+            BufferedOutputStream bos = null;
+
+            try {
+                fos = new FileOutputStream(path);
+                bos = new BufferedOutputStream(fos);
+                photo.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+
+            if (bos != null) {
+                try {
+                    bos.flush();
+                    //bos.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+
+            bos = null;
+            fos = null;
+
+
         }
     }
 
@@ -100,82 +143,6 @@ public class ImageCaptureActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
         Date dt = new Date();
         return sdf.format(dt);
-    }
-
-    private Uri saveImageToExternalStorage(String imgName, Bitmap bmp) {
-        Uri imageCollection = null;
-        ContentResolver resolver = getContentResolver();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            imageCollection = MediaStore.Images.Media.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        } else {
-            imageCollection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        }
-
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imgName + ".jpg");
-        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-
-        Uri imageUri = resolver.insert(imageCollection, contentValues);
-
-        try {
-
-            OutputStream outputStream = resolver.openOutputStream(Objects.requireNonNull(imageUri));
-
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            Objects.requireNonNull(outputStream);
-            Log.e(TAG, "ImageUri" + imageUri.toString());
-            return imageUri;
-        } catch (Exception e) {
-            Toast.makeText(this, "Image not saved", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, e.toString());
-        }
-
-        return null;
-
-    }
-
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
-
-    private void saveFile(String sourceFilename) {
-        String destinationFilename = this.getExternalFilesDir("Projects/" + project.getProjectName() + "/Images/").getAbsolutePath()
-                + File.separatorChar + getFileName() + ".jpeg";
-
-        Log.d(TAG, destinationFilename);
-        Log.d(TAG, sourceFilename);
-        BufferedInputStream bis = null;
-        BufferedOutputStream bos = null;
-
-        try {
-            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
-            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
-            byte[] buf = new byte[1024];
-            bis.read(buf);
-            do {
-                bos.write(buf);
-            } while (bis.read(buf) != -1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bis != null) bis.close();
-                if (bos != null) bos.close();
-                finish();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 
