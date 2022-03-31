@@ -114,6 +114,7 @@ public class FormPageActivity extends AppCompatActivity {
             case DRAFT:
                 projectRef
                         .whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .whereEqualTo("projectId", project.getProjectId())
                         .whereEqualTo("published", false)
                         .get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -149,6 +150,7 @@ public class FormPageActivity extends AppCompatActivity {
                 projectRef
                         .whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .whereEqualTo("published", true)
+                        .whereEqualTo("projectId", project.getProjectId())
                         .get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
