@@ -12,6 +12,7 @@ public class FirestoreSetting {
         // [START set_firestore_settings]
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
                 .build();
         db.setFirestoreSettings(settings);
         // [END set_firestore_settings]
