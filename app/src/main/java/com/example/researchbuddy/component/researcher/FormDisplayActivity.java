@@ -234,7 +234,8 @@ public class FormDisplayActivity extends AppCompatActivity {
             switch (formItem.getType()) {
                 case TEXT:
                     EditText answer_text = new EditText(this);
-                    answer_text.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                    answer_text.setLayoutParams(new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     answer_layout.addView((View) answer_text);
 
                     if (formStatusType.equals(FormStatusType.FILLING)) {
