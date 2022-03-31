@@ -1,16 +1,24 @@
 package com.example.researchbuddy.component.researcher.ui.project_page_fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.researchbuddy.component.researcher.FormCreateActivity;
+import com.example.researchbuddy.component.researcher.InterviewCreateActivity;
 import com.example.researchbuddy.databinding.FragmentInterviewsBinding;
+import com.example.researchbuddy.databinding.FragmentQuestionnariesBinding;
 import com.example.researchbuddy.model.PageViewModel;
+import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.FormStatusType;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -21,13 +29,15 @@ public class InterviewFragment extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentInterviewsBinding binding;
+    private Context context;
+    private ProjectModel project;
 
-    // todo: bind with project
-    public static InterviewFragment newInstance(int index) {
+    public static InterviewFragment newInstance(Context context, int index, ProjectModel projectModel) {
         InterviewFragment fragment = new InterviewFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
-//        fragment.setArguments(bundle);
+        fragment.context = context;
+        fragment.project = projectModel;
         return fragment;
     }
 
@@ -49,6 +59,10 @@ public class InterviewFragment extends Fragment {
 
         binding = FragmentInterviewsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // initialize views
+        final Button btn_create_recording = binding.btnCreateRecording;
+        final Button btn_view_recordings = binding.btnViewRecordings;
 /*
         final TextView textView = binding.sectionLabel;
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -57,6 +71,17 @@ public class InterviewFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+        // on click listeners
+        btn_create_recording.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, InterviewCreateActivity.class);
+                intent.putExtra("project", project);
+                context.startActivity(intent);
+            }
+        });
+
         return root;
     }
 

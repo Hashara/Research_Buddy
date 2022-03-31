@@ -53,7 +53,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         switch (collectionType) {
             case CALL_INTERVIEW:
-                return InterviewFragment.newInstance(position);
+                return InterviewFragment.newInstance(mContext, position, project);
             case OBSERVATION:
                 return ObservationsFragment.newInstance(mContext, position, project);
             case FORMS:

@@ -51,7 +51,11 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_researcher_home);
 
         //create project folder if not exits
+
+        // FIleWriter.writeFolder(this, this, "Projects");
+
         FileService.writeFolder(this, this,"Projects");
+
 
         //action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -101,7 +105,11 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                                 project.setProjectId(document.getId());
                                 projects.add(project);
                                 Log.d(TAG, project.toString());
+
+//                                 FIleWriter.writeFolder(context, activity, "Projects/" + project.getProjectName());
+
                                 FileService.writeFolder(context, activity,"Projects/" + project.getProjectName());
+
                             }
 
                         }
@@ -160,32 +168,49 @@ public class ResearcherHomeActivity extends AppCompatActivity {
 
         MaterialAlertDialogBuilder materialAlertDialog =
                 new MaterialAlertDialogBuilder(this)
-                .setView(dialogView)
-                .setTitle("Create new project")
-                .setMessage("Project Template")
-                .setPositiveButton("create", null)
-                .setNegativeButton("cancel", null);
+                        .setView(dialogView)
+                        .setTitle("Create new project")
+                        .setMessage("Project Template")
+                        .setPositiveButton("create", null)
+                        .setNegativeButton("cancel", null);
 
         AlertDialog projectDialog = materialAlertDialog.show();
         projectDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(createProjectActivity.getAwesomeValidation().validate()){
-                    if(createProjectActivity.validateInputModes()){
-                        createProjectActivity.createProject(dialogView);
-                        projectDialog.dismiss();
-                        // todo: change to add only the new project
-                        startActivity(getIntent());
-                        ;
+                    @Override
+                    public void onClick(View view) {
+                        if (createProjectActivity.getAwesomeValidation().validate()) {
+                            String projectName = createProjectActivity.getProjectName();
+                            if (isProjectNameUnique(projectName)) {
+                                if (createProjectActivity.validateInputModes()) {
+                                    createProjectActivity.createProject(dialogView);
+                                    projectDialog.dismiss();
+//                                    reload intent
+                                    finish();
+                                    overridePendingTransition(0, 0);
+                                    startActivity(getIntent());
+                                    overridePendingTransition(0, 0);
+                                } else {
+                                    Toast.makeText(dialogView.getContext(),
+                                            "Select at least one mode", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(dialogView.getContext(),
+                                        "Project name already exists", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
-                    else {
-                        Toast.makeText(dialogView.getContext(), "Select at least one mode", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-
+                });
     }
+
+    public boolean isProjectNameUnique(String newProjectName) {
+        for (ProjectModel projectModel : projects) {
+            if (projectModel.getProjectName().equals(newProjectName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }
