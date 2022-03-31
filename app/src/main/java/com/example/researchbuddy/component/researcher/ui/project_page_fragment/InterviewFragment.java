@@ -32,7 +32,6 @@ public class InterviewFragment extends Fragment {
     private Context context;
     private ProjectModel project;
 
-    // todo: bind with project
     public static InterviewFragment newInstance(Context context, int index, ProjectModel projectModel) {
         InterviewFragment fragment = new InterviewFragment();
         Bundle bundle = new Bundle();
