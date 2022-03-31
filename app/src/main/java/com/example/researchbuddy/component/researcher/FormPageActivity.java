@@ -18,13 +18,11 @@ import android.widget.Toast;
 
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.FormRecViewAdapter;
-import com.example.researchbuddy.databinding.ActivityFormCreateBinding;
 import com.example.researchbuddy.databinding.ActivityFormPageBinding;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormStatusType;
-import com.example.researchbuddy.service.FIleWriter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,10 +66,18 @@ public class FormPageActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            project = (ProjectModel) getIntent().getSerializableExtra("project");
             formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
 
-            Log.d(TAG, project.toString());
+            if (formStatusType.equals(FormStatusType.FILLING)){
+                initViews();
+
+            }
+            else{
+                project = (ProjectModel) getIntent().getSerializableExtra("project");
+                Log.d(TAG, project.toString());
+
+            }
+
             initViews();
             getForms();
 

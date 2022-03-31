@@ -22,8 +22,7 @@ import com.example.researchbuddy.R;
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
 import com.example.researchbuddy.db.UserDocument;
 import com.example.researchbuddy.model.ProjectModel;
-import com.example.researchbuddy.model.type.CollectionTypes;
-import com.example.researchbuddy.service.FIleWriter;
+import com.example.researchbuddy.service.FileService;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,7 +51,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_researcher_home);
 
         //create project folder if not exits
-        FIleWriter.writeFolder(this, this,"Projects");
+        FileService.writeFolder(this, this,"Projects");
 
         //action bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -102,7 +101,7 @@ public class ResearcherHomeActivity extends AppCompatActivity {
                                 project.setProjectId(document.getId());
                                 projects.add(project);
                                 Log.d(TAG, project.toString());
-                                FIleWriter.writeFolder(context, activity,"Projects/" + project.getProjectName());
+                                FileService.writeFolder(context, activity,"Projects/" + project.getProjectName());
                             }
 
                         }

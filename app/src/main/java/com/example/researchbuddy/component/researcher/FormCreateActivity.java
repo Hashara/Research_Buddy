@@ -230,11 +230,11 @@ public class FormCreateActivity extends AppCompatActivity {
         switch (formItemModel.getType()) {
             case CHECK_BOXES:
                 radioGroup.check(R.id.radio_checkboxes);
-                editTextAnswer.setText(formItemModel.getStringAnswerList());
+                editTextAnswer.setText(getStringAnswerList(formItemModel.getAnswerList()));
                 break;
             case MULTIPLE_CHOICE:
                 radioGroup.check(R.id.radio_multiple_choice);
-                editTextAnswer.setText(formItemModel.getStringAnswerList());
+                editTextAnswer.setText(getStringAnswerList(formItemModel.getAnswerList()));
                 break;
             case TEXT:
                 radioGroup.check(R.id.radio_text);
@@ -247,12 +247,23 @@ public class FormCreateActivity extends AppCompatActivity {
     }
 
 
+    private String getStringAnswerList(ArrayList<String> answerList) {
+        String stringAnswerList = "";
+
+        for (String answer :
+                answerList) {
+            stringAnswerList = stringAnswerList + answer + ";";
+        }
+
+        return stringAnswerList;
+    }
+
     public void onClickSubmitButton() {
         progressBar.setVisibility(View.VISIBLE);
         linear_layout_parent.setVisibility(View.GONE);
         title_card.setVisibility(View.GONE);
 
-//        ArrayList<FormItemModel> formItems;
+
         final int childCount = linear_layout_parent.getChildCount();
         ArrayList<FormItemModel> formItems = new ArrayList<>();
         for (int i = 0; i < childCount; i++) {

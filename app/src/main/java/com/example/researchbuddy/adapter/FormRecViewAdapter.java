@@ -62,7 +62,6 @@ public class FormRecViewAdapter extends RecyclerView.Adapter<FormRecViewAdapter.
             public void onClick(View view) {
                 Log.d(TAG, "Clicked on " + forms.get(position).getTitle());
 
-                // todo: direct to the form view page
                 Intent intent = new Intent(context, FormDisplayActivity.class);
                 intent.putExtra("project", project);
                 intent.putExtra("form", forms.get(position));
