@@ -1,12 +1,12 @@
 package com.example.researchbuddy.component.researcher;
 
-import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.model.ProjectModel;
@@ -17,24 +17,20 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateProjectActivity{
-    private static final String TAG = "CreateProjectActivity";
+public class UpdateProjectActivity extends AppCompatActivity {
 
-    private TextInputLayout projectName;
+    private static final String TAG = "UpdateProjectActivity";
+
     private MaterialCheckBox questionnaire, observation, interview;
-    private String projectNameValue;
     private boolean questionnaireVal, observationVal, interviewVal;
-    private AwesomeValidation awesomeValidation;
-
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_create_project);
+//        setContentView(R.layout.activity_add_mode_form);
 //    }
 
     public void initViews(View view) {
-        projectName = view.findViewById(R.id.txtLayoutProjectName);
         questionnaire = view.findViewById(R.id.checkQuestionnaire);
         observation = view.findViewById(R.id.checkObservation);
         interview = view.findViewById(R.id.checkInterview);
@@ -67,46 +63,13 @@ public class CreateProjectActivity{
         );
     }
 
-    @Override
-    public String toString() {
-        return "CreateProjectActivity{" +
-                "projectNameValue='" + projectNameValue + '\'' +
-                ", questionnaireVal=" + questionnaireVal +
-                ", observationVal=" + observationVal +
-                ", interviewVal=" + interviewVal +
-                '}';
-    }
-
-    public void createProject(View view) {
-        Log.d(TAG, toString());
+    public void updateModes(ProjectModel projectModel, ProjectPageActivity projectPageActivity){
         List<CollectionTypes> selectedModes = new ArrayList<>();
         if(questionnaireVal) selectedModes.add(CollectionTypes.FORMS);
         if(observationVal) selectedModes.add(CollectionTypes.OBSERVATION);
         if(interviewVal) selectedModes.add(CollectionTypes.CALL_INTERVIEW);
 
-        ProjectModel projectModel = new ProjectModel(projectNameValue, selectedModes);
         ProjectDocument projectDocument = new ProjectDocument();
-        projectDocument.onCreateProject(projectModel);
+        projectDocument.addCollectionTypes(projectModel, selectedModes, projectPageActivity);
     }
-
-    public AwesomeValidation getAwesomeValidation() {
-        return awesomeValidation;
-    }
-
-    public void validateInput() {
-        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-        awesomeValidation.addValidation(projectName.getEditText(), RegexTemplate.NOT_EMPTY,
-                "Project name is empty");
-    }
-
-    public boolean validateInputModes(){
-        return questionnaireVal || observationVal || interviewVal;
-    }
-
-    public String getProjectName() {
-        projectNameValue = projectName.getEditText().getText().toString();
-        return projectNameValue;
-    }
-
-
 }

@@ -17,13 +17,15 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.researchbuddy.MainActivity;
 import com.example.researchbuddy.R;
-import com.example.researchbuddy.component.auth.LoginActivity;
+import com.example.researchbuddy.databinding.ActivityFormCreateBinding;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
+import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormItemType;
+import com.example.researchbuddy.model.type.FormStatusType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -42,19 +44,53 @@ public class FormCreateActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private CardView title_card;
+    private ProjectModel project;
 
+    private ActivityFormCreateBinding binding;
+    private FormModel form;
+    private FormStatusType formStatusType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_create);
 
-        initViews();
+        Log.d(TAG, "on create");
+        binding = ActivityFormCreateBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        // todo: get data from ui
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            project = (ProjectModel) getIntent().getSerializableExtra("project");
+            formStatusType = (FormStatusType) getIntent().getSerializableExtra("formStatusType");
 
-//        loadFormItems();
+            if (formStatusType.equals(FormStatusType.DRAFT)) {
+                Log.d(TAG, "Editing a draft form");
+                // for edit existing form
+                form = (FormModel) getIntent().getSerializableExtra("form");
+                Log.d(TAG, form.toString());
 
+                initViews();
+
+                // set title and description
+                edt_txt_form_title.setText(form.getTitle());
+                edt_from_description.setText(form.getDescription());
+
+                // form items
+
+                for (FormItemModel formItem :
+                        form.getItems()) {
+                    addFormItem(formItem);
+                }
+
+            } else {
+                initViews();
+                addFormItem();
+
+            }
+            Log.d(TAG, project.toString());
+
+        }
 
     }
 
@@ -82,20 +118,8 @@ public class FormCreateActivity extends AppCompatActivity {
             onClickSubmitButton();
         });
 
-        addFormItem();
     }
 
-//
-//    private void loadFormItems() {
-//        Log.d(TAG, "creating form views");
-//
-//
-//        // todo: get from database if available
-//        FormModel formItem1 = new FormModel("TEST");
-//        formItem1.setPosition(formItems.size());
-//        formItems.add(formItem1);
-//
-//    }
 
     public void addFormItem() {
 
@@ -150,10 +174,95 @@ public class FormCreateActivity extends AppCompatActivity {
         linear_layout_parent.addView(rowView, linear_layout_parent.getChildCount());
     }
 
+
+    public void addFormItem(FormItemModel formItemModel) {
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.form_item, null);
+        // Add the new row before the add field button.
+        ImageButton btn_delete = rowView.findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(view -> {
+            linear_layout_parent.removeView((View) view.getParent());
+        });
+
+        // radio button functions
+        RadioGroup radioGroup = rowView.findViewById(R.id.radio_group_question_type);
+        EditText editTextAnswer = rowView.findViewById(R.id.edt_text_answer);
+        EditText editTextQuestion = rowView.findViewById(R.id.edt_text_question);
+        TextView txtInstruction = rowView.findViewById(R.id.txt_instruction);
+
+        int checkedRadioId = radioGroup.getCheckedRadioButtonId();
+
+        switch (checkedRadioId) {
+            case R.id.radio_checkboxes:
+            case R.id.radio_multiple_choice:
+                editTextAnswer.setVisibility(View.VISIBLE);
+                txtInstruction.setVisibility(View.VISIBLE);
+                break;
+            case R.id.radio_text:
+                editTextAnswer.setVisibility(View.GONE);
+                txtInstruction.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+
+                    case R.id.radio_checkboxes:
+                    case R.id.radio_multiple_choice:
+                        editTextAnswer.setVisibility(View.VISIBLE);
+                        txtInstruction.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.radio_text:
+                        editTextAnswer.setVisibility(View.GONE);
+                        txtInstruction.setVisibility(View.GONE);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        editTextQuestion.setText(formItemModel.getQuestion());
+        switch (formItemModel.getType()) {
+            case CHECK_BOXES:
+                radioGroup.check(R.id.radio_checkboxes);
+                editTextAnswer.setText(getStringAnswerList(formItemModel.getAnswerList()));
+                break;
+            case MULTIPLE_CHOICE:
+                radioGroup.check(R.id.radio_multiple_choice);
+                editTextAnswer.setText(getStringAnswerList(formItemModel.getAnswerList()));
+                break;
+            case TEXT:
+                radioGroup.check(R.id.radio_text);
+                break;
+            default:
+                radioGroup.check(R.id.radio_text);
+                break;
+        }
+        linear_layout_parent.addView(rowView, linear_layout_parent.getChildCount());
+    }
+
+
+    private String getStringAnswerList(ArrayList<String> answerList) {
+        String stringAnswerList = "";
+
+        for (String answer :
+                answerList) {
+            stringAnswerList = stringAnswerList + answer + ";";
+        }
+
+        return stringAnswerList;
+    }
+
     public void onClickSubmitButton() {
         progressBar.setVisibility(View.VISIBLE);
         linear_layout_parent.setVisibility(View.GONE);
         title_card.setVisibility(View.GONE);
+
 
         final int childCount = linear_layout_parent.getChildCount();
         ArrayList<FormItemModel> formItems = new ArrayList<>();
@@ -173,11 +282,11 @@ public class FormCreateActivity extends AppCompatActivity {
             switch (checkedRadioId) {
                 case R.id.radio_checkboxes:
                     formItemModel.setType(FormItemType.CHECK_BOXES);
-                    formItemModel.setAnswerList(txt_answer_list.getText().toString());
+                    formItemModel.setAnswerListFromString(txt_answer_list.getText().toString());
                     break;
                 case R.id.radio_multiple_choice:
                     formItemModel.setType(FormItemType.MULTIPLE_CHOICE);
-                    formItemModel.setAnswerList(txt_answer_list.getText().toString());
+                    formItemModel.setAnswerListFromString(txt_answer_list.getText().toString());
                     break;
                 case R.id.radio_text:
                     formItemModel.setType(FormItemType.TEXT);
@@ -194,12 +303,21 @@ public class FormCreateActivity extends AppCompatActivity {
 
         String formTitle = edt_txt_form_title.getText().toString();
         String formDescription = edt_from_description.getText().toString();
-        FormModel form = new FormModel(formTitle, formDescription, formItems);
 
-//        Log.d(TAG, form.toString());
+        // create new form
+        if (formStatusType == FormStatusType.BUILDING) {
+            form = new FormModel(formTitle, formDescription, formItems);
+            form.setProjectId(project.getProjectId());
+            form.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        } else {
+            form.setItems(formItems);
+        }
+
         // pass object to next activity
         Intent intent = new Intent(this, FormDisplayActivity.class);
         intent.putExtra("form", form);
+        intent.putExtra("project", project);
+        intent.putExtra("formStatusType", FormStatusType.BUILDING);
 
 
         progressBar.setVisibility(View.GONE);

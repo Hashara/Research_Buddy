@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.researchbuddy">
+    package="com.example.researchbuddy"
+    android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -11,9 +26,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResearchBuddy">
-<!--        <activity-->
-<!--            android:name=".component.researcher.CreateProjectActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".component.researcher.UpdateProjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".component.researcher.InterviewCreateActivity"
+            android:exported="false" />
+       <activity
+            android:name=".component.researcher.ImageCaptureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".component.researcher.VideoCaptureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".component.researcher.FormPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".component.researcher.AudioCaptureActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".component.researcher.CreateProjectActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".component.researcher.FormDisplayActivity"
             android:exported="false" />
@@ -52,6 +84,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.example.researchbuddy.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                />
+        </provider>
     </application>
 
 </manifest>

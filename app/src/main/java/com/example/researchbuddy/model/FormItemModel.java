@@ -1,5 +1,7 @@
 package com.example.researchbuddy.model;
 
+import android.util.Log;
+
 import com.example.researchbuddy.model.type.FormItemType;
 
 import java.io.Serializable;
@@ -42,9 +44,6 @@ public class FormItemModel implements Serializable {
         this.type = type;
         if (type.equals(FormItemType.TEXT)) {
             answerList = null;
-        } else {
-            textAnswer = "";
-            answerList = new ArrayList<>();
         }
     }
 
@@ -52,8 +51,8 @@ public class FormItemModel implements Serializable {
         this.answerList = answerList;
     }
 
-    public void setAnswerList(String answerList) {
-        this.answerList =  new ArrayList<String>(Arrays.asList(answerList.split("\\s*;\\s*")));
+    public void setAnswerListFromString(String answerList) {
+        this.answerList = new ArrayList<String>(Arrays.asList(answerList.split("\\s*;\\s*")));
     }
 
 
@@ -81,9 +80,6 @@ public class FormItemModel implements Serializable {
     }
 
     public String getTextAnswer() {
-        if (!type.equals(FormItemType.TEXT)) {
-            textAnswer = "";
-        }
         return textAnswer;
     }
 

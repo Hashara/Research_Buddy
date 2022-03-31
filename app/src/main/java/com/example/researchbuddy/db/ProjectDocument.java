@@ -8,7 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
+import com.example.researchbuddy.component.researcher.ProjectPageActivity;
 import com.example.researchbuddy.model.ProjectModel;
+import com.example.researchbuddy.model.type.CollectionTypes;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,20 +34,25 @@ public class ProjectDocument {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private static final String TAG = "ProjectDocument";
+    private static final String COLLECTION = "projects";
+//    private ProjectModel project = null;
+
 
     String userId = firebaseUser.getUid();
 
     public void onCreateProject(ProjectModel projectModel) {
         projectModel.setUserId(userId);
 
-        Task<DocumentReference> task = db.collection("projects")
+        Task<DocumentReference> task = db.collection(COLLECTION)
                 .add(projectModel)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Project Details added successfully with Id: "
                                 + documentReference.getId());
-
+                        setProjectIdField(documentReference.getId());
+                        Log.d(TAG, "successfully updated Project ID with Id:"
+                                + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -54,4 +63,62 @@ public class ProjectDocument {
                 });
 
     }
+
+    public void deleteProject(ProjectModel projectModel) {
+        db.collection(COLLECTION).document(projectModel.getProjectId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, projectModel.getProjectName() +
+                                " project DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, projectModel.getProjectName() +
+                                " Error deleting document", e);
+                    }
+                });
+
+    }
+
+    public void setProjectIdField(String docId) {
+        db.collection(COLLECTION).document(docId).update(
+                "projectId", docId
+        ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "project id updated successfully!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error updating project id", e);
+            }
+        });
+    }
+
+    public void addCollectionTypes(ProjectModel projectModel, List<CollectionTypes> collectionTypes,
+    ProjectPageActivity projectPageActivity) {
+        db.collection(COLLECTION).document(projectModel.getProjectId()).update(
+                "collectionTypes", collectionTypes
+        ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, projectModel.getProjectName() +
+                        " project collectionTypes updated successfully!");
+                projectModel.setCollectionTypes(collectionTypes);
+                projectPageActivity.reloadIntent(projectModel);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, projectModel.getProjectName() +
+                        " Error updating collectionTypes", e);
+            }
+        });
+    }
+
 }
