@@ -9,14 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.researchbuddy.R;
 import com.example.researchbuddy.component.researcher.ProjectPageActivity;
+import com.example.researchbuddy.component.researcher.ResearcherHomeActivity;
+import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.model.ProjectModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -62,6 +67,40 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
             }
         });
 
+        holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                MaterialAlertDialogBuilder materialAlertDialog =
+                        new MaterialAlertDialogBuilder(context)
+                                .setTitle("Do you want to delete this project?")
+                                .setMessage("You will no longer able to add items to this project")
+                                .setPositiveButton("Yes", null)
+                                .setNegativeButton("No", null);
+
+                AlertDialog deletetDialog = materialAlertDialog.show();
+                deletetDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ProjectDocument projectDocument = new ProjectDocument();
+                                projectDocument.deleteProject(projects.get(position));
+                                removeItem(position);
+                                deletetDialog.dismiss();
+//                                Toast.makeText(context, "Project deleted successfully",
+//                                        Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                return true;
+            }
+        });
+
+    }
+
+    public void removeItem(int position) {
+        projects.remove(position);
+        notifyItemRemoved(position);
     }
 
 
