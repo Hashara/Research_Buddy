@@ -84,6 +84,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
                             public void onClick(View view) {
                                 ProjectDocument projectDocument = new ProjectDocument();
                                 projectDocument.deleteProject(projects.get(position));
+//                                todo : call removeItem method within firebase Onsuccess
                                 removeItem(position);
                                 deletetDialog.dismiss();
 //                                Toast.makeText(context, "Project deleted successfully",

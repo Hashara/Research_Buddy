@@ -27,6 +27,7 @@ import com.example.researchbuddy.component.researcher.AudioCaptureActivity;
 import com.example.researchbuddy.component.researcher.FormDisplayActivity;
 import com.example.researchbuddy.component.researcher.ImageCaptureActivity;
 import com.example.researchbuddy.component.researcher.ProjectPageActivity;
+import com.example.researchbuddy.component.researcher.SaveToCloudActivity;
 import com.example.researchbuddy.component.researcher.VideoCaptureActivity;
 import com.example.researchbuddy.databinding.FragmentObservationsBinding;
 import com.example.researchbuddy.model.PageViewModel;
@@ -79,6 +80,7 @@ public class ObservationsFragment extends Fragment {
         final Button btn_add_video = binding.btnAddVideo;
         final Button btn_add_image = binding.btnAddImage;
         final Button btn_add_audio = binding.btnAddAudio;
+        final Button btn_save_to_cloud = binding.btnSaveToCloud;
 
         // get camera permission
         if (mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
@@ -101,6 +103,10 @@ public class ObservationsFragment extends Fragment {
             recordAudioOnButtonPressed();
         });
 
+        btn_save_to_cloud.setOnClickListener(view -> {
+            saveToCloudOnButtonPressed();
+        });
+
         return root;
     }
 
@@ -121,6 +127,12 @@ public class ObservationsFragment extends Fragment {
     //audio
     private void recordAudioOnButtonPressed() {
         Intent intent = new Intent(mContext, AudioCaptureActivity.class);
+        intent.putExtra("project", project);
+        mContext.startActivity(intent);
+    }
+
+    private void saveToCloudOnButtonPressed() {
+        Intent intent = new Intent(mContext, SaveToCloudActivity.class);
         intent.putExtra("project", project);
         mContext.startActivity(intent);
     }

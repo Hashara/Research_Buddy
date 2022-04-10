@@ -35,8 +35,6 @@ public class ProjectDocument {
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private static final String TAG = "ProjectDocument";
     private static final String COLLECTION = "projects";
-//    private ProjectModel project = null;
-
 
     String userId = firebaseUser.getUid();
 

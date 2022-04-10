@@ -94,7 +94,7 @@ public class ProjectPageActivity extends AppCompatActivity {
     }
 
     public void launchUpdateModeDialog(){
-        UpdateProjectActivity updateProjectActivity = new UpdateProjectActivity();
+        UpdateProjectActivity updateProjectActivity = new UpdateProjectActivity(project);
         updateProjectActivity.initViews(dialogView);
         updateProjectActivity.setCheckboxListeners();
 
@@ -110,8 +110,15 @@ public class ProjectPageActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateProjectActivity.updateModes(project, ProjectPageActivity.this);
-                projectDialog.dismiss();
+                if(updateProjectActivity.validateInputModes()){
+                    updateProjectActivity.updateModes(project, ProjectPageActivity.this);
+                    projectDialog.dismiss();
+                }
+                else {
+                    Toast.makeText(dialogView.getContext(),
+                            "Select at least one mode", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -123,5 +130,6 @@ public class ProjectPageActivity extends AppCompatActivity {
         getIntent().putExtra("project", updatedProject);
         startActivity(getIntent());
         overridePendingTransition(0, 0);
+        project = updatedProject;
     }
 }
