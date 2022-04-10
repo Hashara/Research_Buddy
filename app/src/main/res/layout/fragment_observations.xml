@@ -39,4 +39,15 @@
         android:padding="15dp"
         android:text="@string/add_audio" />
 
+    <Button
+        android:id="@+id/btn_save_to_cloud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_add_audio"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_image"
+        android:gravity="left|center_vertical"
+        android:padding="15dp"
+        android:text="Save to cloud" />
+
 </RelativeLayout>

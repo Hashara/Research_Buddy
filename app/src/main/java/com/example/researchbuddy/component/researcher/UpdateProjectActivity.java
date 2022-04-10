@@ -1,8 +1,11 @@
 package com.example.researchbuddy.component.researcher;
 
+import static com.example.researchbuddy.model.type.CollectionTypes.CALL_INTERVIEW;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -17,10 +20,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateProjectActivity extends AppCompatActivity {
+public class UpdateProjectActivity {
 
     private static final String TAG = "UpdateProjectActivity";
-
+    private ProjectModel project;
     private MaterialCheckBox questionnaire, observation, interview;
     private boolean questionnaireVal, observationVal, interviewVal;
 
@@ -30,10 +33,35 @@ public class UpdateProjectActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_add_mode_form);
 //    }
 
+    public UpdateProjectActivity(ProjectModel projectModel) {
+        this.project = projectModel;
+    }
+
     public void initViews(View view) {
         questionnaire = view.findViewById(R.id.checkQuestionnaire);
         observation = view.findViewById(R.id.checkObservation);
         interview = view.findViewById(R.id.checkInterview);
+
+        List<CollectionTypes> initialModes = project.getCollectionTypes();
+        Log.d(TAG, initialModes.toString());
+        for (CollectionTypes mode : initialModes) {
+            switch (mode) {
+                case CALL_INTERVIEW:
+                    interview.setChecked(true);
+                    interviewVal = true;
+                    break;
+                case FORMS:
+                    questionnaire.setChecked(true);
+                    questionnaireVal = true;
+                    break;
+                case OBSERVATION:
+                    observation.setChecked(true);
+                    observationVal = true;
+                    break;
+
+            }
+
+        }
     }
 
     public void setCheckboxListeners() {
@@ -63,11 +91,16 @@ public class UpdateProjectActivity extends AppCompatActivity {
         );
     }
 
-    public void updateModes(ProjectModel projectModel, ProjectPageActivity projectPageActivity){
+    public boolean validateInputModes() {
+        return questionnaireVal || observationVal || interviewVal;
+    }
+
+
+    public void updateModes(ProjectModel projectModel, ProjectPageActivity projectPageActivity) {
         List<CollectionTypes> selectedModes = new ArrayList<>();
-        if(questionnaireVal) selectedModes.add(CollectionTypes.FORMS);
-        if(observationVal) selectedModes.add(CollectionTypes.OBSERVATION);
-        if(interviewVal) selectedModes.add(CollectionTypes.CALL_INTERVIEW);
+        if (questionnaireVal) selectedModes.add(CollectionTypes.FORMS);
+        if (observationVal) selectedModes.add(CollectionTypes.OBSERVATION);
+        if (interviewVal) selectedModes.add(CALL_INTERVIEW);
 
         ProjectDocument projectDocument = new ProjectDocument();
         projectDocument.addCollectionTypes(projectModel, selectedModes, projectPageActivity);
