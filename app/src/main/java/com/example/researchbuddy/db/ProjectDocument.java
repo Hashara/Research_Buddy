@@ -100,6 +100,7 @@ public class ProjectDocument {
 
     public void addCollectionTypes(ProjectModel projectModel, List<CollectionTypes> collectionTypes,
     ProjectPageActivity projectPageActivity) {
+        Log.d(TAG, collectionTypes.toString());
         db.collection(COLLECTION).document(projectModel.getProjectId()).update(
                 "collectionTypes", collectionTypes
         ).addOnSuccessListener(new OnSuccessListener<Void>() {

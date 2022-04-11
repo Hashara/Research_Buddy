@@ -48,4 +48,17 @@
     <string name="form_title">Form Title</string>
     <string name="phone_number">Phone number</string>
     <string name="make_interview_call_title">Make an interview call</string>
+    <string name="image1">
+        <a href="https://firebasestorage.googleapis.com/v0/b/research-buddy-db416.appspot.com/o/images%2F2022_04_11_07_27_49?alt=media&amp;token=a94732b7-23bc-4a88-aa44-ce010dad0906">
+        2022_04_11_07_27_49.jpeg</a></string>
+    <string name="image2">
+        <a href="https://firebasestorage.googleapis.com/v0/b/research-buddy-db416.appspot.com/o/images%2F2022_04_11_07_29_05?alt=media&amp;token=ebb6071b-a27a-49ca-aca3-ec877dded533">
+        2022_04_11_07_29_05.jpeg</a></string>
+    <string name="image3">
+        <a href="https://firebasestorage.googleapis.com/v0/b/research-buddy-db416.appspot.com/o/images%2F2022_04_11_07_30_13?alt=media&amp;token=f0e673f4-a13b-4522-a2c7-8d03dcd51d05">
+        2022_04_11_07_30_13.jpeg</a></string>
+    <string name="video1">
+        <a href="https://firebasestorage.googleapis.com/v0/b/research-buddy-db416.appspot.com/o/videos%2F2022_04_11_07_35_06?alt=media&amp;token=936e1fe0-60e7-4113-9fef-cc5765eea44c">
+        2022_04_11_07_35_06.mp4
+        </a></string>
 </resources>

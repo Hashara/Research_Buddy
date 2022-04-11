@@ -9,10 +9,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
@@ -51,6 +53,8 @@ public class SaveToCloudActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_to_cloud);
 
+        setupHyperlink();
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             project = (ProjectModel) getIntent().getSerializableExtra("project");
@@ -73,6 +77,17 @@ public class SaveToCloudActivity extends AppCompatActivity {
                 selectVideo();
             }
         });
+    }
+
+    private void setupHyperlink() {
+        TextView cloud_image1 = findViewById(R.id.cloud_image1);
+        cloud_image1.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView cloud_image2 = findViewById(R.id.cloud_image2);
+        cloud_image2.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView cloud_image3 = findViewById(R.id.cloud_image3);
+        cloud_image3.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView cloud_video1 = findViewById(R.id.cloud_video1);
+        cloud_video1.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void uploadContent() {
@@ -106,12 +121,14 @@ public class SaveToCloudActivity extends AppCompatActivity {
                             if (isVideo) {
                                 VideoModel videoModel = new VideoModel();
                                 videoModel.setProjectId(project.getProjectId());
+                                videoModel.setVideoName(fileName+".mp4");
                                 videoModel.setUrl(uri.toString());
                                 VideoDocument videoDocument = new VideoDocument();
                                 videoDocument.onCreateProject(videoModel);
                             } else {
                                 ImageModel imageModel = new ImageModel();
                                 imageModel.setProjectId(project.getProjectId());
+                                imageModel.setImageName(fileName+".jpeg");
                                 imageModel.setUrl(uri.toString());
                                 ImageDocument imageDocument = new ImageDocument();
                                 imageDocument.onCreateProject(imageModel);

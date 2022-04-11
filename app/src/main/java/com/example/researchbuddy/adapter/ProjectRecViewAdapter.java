@@ -72,7 +72,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
             public boolean onLongClick(View view) {
                 MaterialAlertDialogBuilder materialAlertDialog =
                         new MaterialAlertDialogBuilder(context)
-                                .setTitle("Do you want to delete this project?")
+                                .setTitle("Do you want to delete project " + projects.get(position).getProjectName() +"?")
                                 .setMessage("You will no longer able to add items to this project")
                                 .setPositiveButton("Yes", null)
                                 .setNegativeButton("No", null);
