@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.researchbuddy.component.researcher.SaveToCloudActivity;
 import com.example.researchbuddy.model.ImageModel;
 import com.example.researchbuddy.model.ProjectModel;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,7 +24,7 @@ public class ImageDocument {
 
     String userId = firebaseUser.getUid();
 
-    public void onCreateProject(ImageModel imageModel) {
+    public void onCreateProject(ImageModel imageModel, SaveToCloudActivity saveToCloudActivity) {
         imageModel.setUserId(userId);
 
         Task<DocumentReference> task = db.collection(COLLECTION)
@@ -36,6 +37,7 @@ public class ImageDocument {
                         setImageIdField(documentReference.getId());
                         Log.d(TAG, "successfully updated Image ID with Id:"
                                 + documentReference.getId());
+                        saveToCloudActivity.reloadIntent();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

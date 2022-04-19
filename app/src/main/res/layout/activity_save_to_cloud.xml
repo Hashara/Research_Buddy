@@ -44,103 +44,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/uploadvideobtn"
-        android:layout_margin="40dp">
+        android:layout_margin="40dp"
+        android:id="@+id/cloudImageLayout">
 
-<!--        <ProgressBar-->
-<!--            android:id="@+id/cloud_image_progress_bar_loading"-->
-<!--            android:visibility="invisible"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:layout_margin="50dp"-->
-<!--            />-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/cloudImageRecView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
         <TextView
+            android:id="@+id/cloud_images_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Access Cloud Media"
-            android:textStyle="bold"
+            android:text="Access Cloud Images"
             android:textSize="20dp"
-            android:id="@+id/cloud_media_title"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#366fb9"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/cloud_media_title"
-            android:id="@+id/sep_1"/>
+            android:textStyle="bold" />
 
-        <TextView
+        <ListView
+            android:id="@+id/cloud_images_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sep_1"
-            android:text="@string/image1"
-            android:id="@+id/cloud_image1"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#366fb9"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/cloud_image1"
-            android:id="@+id/sep_2"/>
+            android:layout_below="@id/cloud_images_title" />
 
         <TextView
+            android:id="@+id/cloud_videos_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sep_2"
-            android:text="@string/image2"
-            android:id="@+id/cloud_image2"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#366fb9"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/cloud_image2"
-            android:id="@+id/sep_3"/>
+            android:text="Access Cloud Videos"
+            android:textSize="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/cloud_images_list_view"
+            android:textStyle="bold" />
 
-        <TextView
+        <ListView
+            android:id="@+id/cloud_videos_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sep_3"
-            android:text="@string/image3"
-            android:id="@+id/cloud_image3"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#366fb9"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/cloud_image3"
-            android:id="@+id/sep_4"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sep_4"
-            android:text="@string/video1"
-            android:id="@+id/cloud_video1"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#366fb9"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/cloud_video1"
-            android:id="@+id/sep_5"/>
-
-
+            android:layout_below="@id/cloud_videos_title" />
 
     </RelativeLayout>
 

@@ -15,17 +15,17 @@
         android:drawableLeft="@drawable/ic_add_form"
         android:gravity="left|center_vertical"
         android:padding="15dp"
-        android:text="@string/new_call_recording" />
+        android:text="@string/Make_an_interview_Call" />
 
-    <Button
-        android:id="@+id/btn_view_recordings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_create_recording"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/ic_draft"
-        android:gravity="left|center_vertical"
-        android:padding="15dp"
-        android:text="@string/view_call_recordings" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_view_recordings"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/btn_create_recording"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:drawableLeft="@drawable/ic_draft"-->
+<!--        android:gravity="left|center_vertical"-->
+<!--        android:padding="15dp"-->
+<!--        android:text="@string/view_call_recordings" />-->
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.researchbuddy.component.researcher.SaveToCloudActivity;
 import com.example.researchbuddy.model.VideoModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,7 +23,7 @@ public class VideoDocument {
 
     String userId = firebaseUser.getUid();
 
-    public void onCreateProject(VideoModel videoModel) {
+    public void onCreateProject(VideoModel videoModel, SaveToCloudActivity saveToCloudActivity) {
         videoModel.setUserId(userId);
 
         Task<DocumentReference> task = db.collection(COLLECTION)
@@ -35,6 +36,7 @@ public class VideoDocument {
                         setVideoIdField(documentReference.getId());
                         Log.d(TAG, "successfully updated Video ID with Id:"
                                 + documentReference.getId());
+                        saveToCloudActivity.reloadIntent();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
