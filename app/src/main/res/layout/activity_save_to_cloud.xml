@@ -44,22 +44,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/uploadvideobtn"
-        android:layout_margin="40dp">
+        android:layout_margin="40dp"
+        android:id="@+id/cloudImageLayout">
 
-        <ProgressBar
-            android:id="@+id/cloud_image_progress_bar_loading"
-            android:visibility="invisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="50dp"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cloudImageRecView"
+        <TextView
+            android:id="@+id/cloud_images_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:text="Access Cloud Images"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/cloud_images_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cloud_images_title" />
+
+        <TextView
+            android:id="@+id/cloud_videos_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Access Cloud Videos"
+            android:textSize="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/cloud_images_list_view"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/cloud_videos_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cloud_videos_title" />
 
     </RelativeLayout>
 

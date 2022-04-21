@@ -1,5 +1,6 @@
 package com.example.researchbuddy.db;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.nfc.Tag;
 import android.util.Log;
@@ -62,7 +63,8 @@ public class ProjectDocument {
 
     }
 
-    public void deleteProject(ProjectModel projectModel) {
+    public void deleteProject(ProjectModel projectModel, ProjectRecViewAdapter projectRecViewAdapter,
+                              int position, ProgressDialog progressDialog) {
         db.collection(COLLECTION).document(projectModel.getProjectId())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -70,6 +72,14 @@ public class ProjectDocument {
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, projectModel.getProjectName() +
                                 " project DocumentSnapshot successfully deleted!");
+                        progressDialog.dismiss();
+                        projectRecViewAdapter.removeItem(position);
+                        ImageDocument imageDocument = new ImageDocument();
+                        imageDocument.deleteImages(projectModel);
+                        VideoDocument videoDocument = new VideoDocument();
+                        videoDocument.deleteVideos(projectModel);
+                        FormDocument formDocument = new FormDocument();
+                        formDocument.deleteForms(projectModel);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -100,6 +110,7 @@ public class ProjectDocument {
 
     public void addCollectionTypes(ProjectModel projectModel, List<CollectionTypes> collectionTypes,
     ProjectPageActivity projectPageActivity) {
+        Log.d(TAG, collectionTypes.toString());
         db.collection(COLLECTION).document(projectModel.getProjectId()).update(
                 "collectionTypes", collectionTypes
         ).addOnSuccessListener(new OnSuccessListener<Void>() {

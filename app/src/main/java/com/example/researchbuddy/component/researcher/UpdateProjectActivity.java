@@ -101,6 +101,7 @@ public class UpdateProjectActivity {
         if (questionnaireVal) selectedModes.add(CollectionTypes.FORMS);
         if (observationVal) selectedModes.add(CollectionTypes.OBSERVATION);
         if (interviewVal) selectedModes.add(CALL_INTERVIEW);
+        Log.d(TAG, selectedModes.toString());
 
         ProjectDocument projectDocument = new ProjectDocument();
         projectDocument.addCollectionTypes(projectModel, selectedModes, projectPageActivity);

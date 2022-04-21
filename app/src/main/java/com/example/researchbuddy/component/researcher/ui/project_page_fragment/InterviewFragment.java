@@ -62,7 +62,7 @@ public class InterviewFragment extends Fragment {
 
         // initialize views
         final Button btn_create_recording = binding.btnCreateRecording;
-        final Button btn_view_recordings = binding.btnViewRecordings;
+//        final Button btn_view_recordings = binding.btnViewRecordings;
 /*
         final TextView textView = binding.sectionLabel;
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

@@ -102,7 +102,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = BitmapFactory.decodeFile(currentPhotoPath);
-            imageView.setImageBitmap((Bitmap) data.getExtras().get("data"));
+//            imageView.setImageBitmap((Bitmap) data.getExtras().get("data"));
 
             String imageFileName = getFileName() + ".png";
 

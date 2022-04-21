@@ -13,6 +13,7 @@ import com.example.researchbuddy.adapter.FormRecViewAdapter;
 import com.example.researchbuddy.model.FormItemModel;
 import com.example.researchbuddy.model.FormModel;
 import com.example.researchbuddy.model.FormResponseModel;
+import com.example.researchbuddy.model.ProjectModel;
 import com.example.researchbuddy.model.type.FormStatusType;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
@@ -191,4 +193,29 @@ public class FormDocument {
                     }
                 });
     }
+
+    public void deleteForms(ProjectModel projectModel) {
+
+        Query form_query = db.collection("forms")
+                .whereEqualTo("projectId", projectModel.getProjectId());
+        form_query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot document : documents) {
+                    if (document.exists()) {
+                        document.getReference().delete();
+                    }
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, projectModel.getProjectName() +
+                                " Error deleting form document", e);
+                    }
+                });
+    }
+
 }
