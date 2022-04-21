@@ -2,6 +2,7 @@ package com.example.researchbuddy.component.researcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -17,7 +18,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.researchbuddy.R;
+import com.example.researchbuddy.adapter.ProjectRecViewAdapter;
 import com.example.researchbuddy.db.ImageDocument;
+import com.example.researchbuddy.db.ProjectDocument;
 import com.example.researchbuddy.db.VideoDocument;
 import com.example.researchbuddy.model.ImageModel;
 import com.example.researchbuddy.model.ProjectModel;
@@ -26,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -62,6 +66,7 @@ public class SaveToCloudActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private String userId = firebaseUser.getUid();
+    private ProgressDialog deleteProgressDialog;
 
 
     @Override
@@ -132,6 +137,36 @@ public class SaveToCloudActivity extends AppCompatActivity {
                                 startActivity(browserIntent);
                             }
                         });
+                        imagesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                ImageModel imageModel = imageListItems.get(position);
+                                MaterialAlertDialogBuilder materialAlertDialog =
+                                        new MaterialAlertDialogBuilder(SaveToCloudActivity.this)
+                                                .setTitle("Do you want to delete image " +
+                                                        imageModel.getImageName() +"?")
+                                                .setMessage("Image will be permanently deleted from cloud storage?")
+                                                .setPositiveButton("Yes", null)
+                                                .setNegativeButton("No", null);
+
+                                AlertDialog deletetDialog = materialAlertDialog.show();
+                                deletetDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                        .setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                deletetDialog.dismiss();
+                                                deleteProgressDialog = new ProgressDialog(SaveToCloudActivity.this);
+                                                deleteProgressDialog.setTitle("Deleting image....");
+                                                deleteProgressDialog.show();
+                                                ImageDocument imageDocument = new ImageDocument();
+                                                imageDocument.deleteSingleImage(imageModel,
+                                                        deleteProgressDialog, SaveToCloudActivity.this);
+                                            }
+                                        });
+
+                                return true;
+                            }
+                        });
 
                     }
                 })
@@ -188,6 +223,36 @@ public class SaveToCloudActivity extends AppCompatActivity {
                                 VideoModel videoModel = videoListItems.get(position);
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoModel.getUrl()));
                                 startActivity(browserIntent);
+                            }
+                        });
+                        videosListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                                VideoModel videoModel = videoListItems.get(position);
+                                MaterialAlertDialogBuilder materialAlertDialog =
+                                        new MaterialAlertDialogBuilder(SaveToCloudActivity.this)
+                                                .setTitle("Do you want to delete video " +
+                                                        videoModel.getVideoName() +"?")
+                                                .setMessage("Video will be permanently deleted from cloud storage?")
+                                                .setPositiveButton("Yes", null)
+                                                .setNegativeButton("No", null);
+
+                                AlertDialog deletetDialog = materialAlertDialog.show();
+                                deletetDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                        .setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                deletetDialog.dismiss();
+                                                deleteProgressDialog = new ProgressDialog(SaveToCloudActivity.this);
+                                                deleteProgressDialog.setTitle("Deleting video....");
+                                                deleteProgressDialog.show();
+                                                VideoDocument videoDocument = new VideoDocument();
+                                                videoDocument.deleteSingleVideo(videoModel,
+                                                        deleteProgressDialog, SaveToCloudActivity.this);
+                                            }
+                                        });
+
+                                return true;
                             }
                         });
 

@@ -1,6 +1,7 @@
 package com.example.researchbuddy.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 
 public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAdapter.ViewHolder> {
     private static final String TAG = "ProjectRecViewAdapter";
+
+    private ProgressDialog deleteProgressDialog;
 
     private ArrayList<ProjectModel> projects = new ArrayList<>();
 
@@ -73,7 +76,7 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
                 MaterialAlertDialogBuilder materialAlertDialog =
                         new MaterialAlertDialogBuilder(context)
                                 .setTitle("Do you want to delete project " + projects.get(position).getProjectName() +"?")
-                                .setMessage("You will no longer able to add items to this project")
+                                .setMessage("You will no longer able to add items to this project and access cloud media")
                                 .setPositiveButton("Yes", null)
                                 .setNegativeButton("No", null);
 
@@ -82,14 +85,16 @@ public class ProjectRecViewAdapter extends RecyclerView.Adapter<ProjectRecViewAd
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                ProjectDocument projectDocument = new ProjectDocument();
-                                projectDocument.deleteProject(projects.get(position));
-//                                todo : call removeItem method within firebase Onsuccess
-                                removeItem(position);
                                 deletetDialog.dismiss();
-//                                Toast.makeText(context, "Project deleted successfully",
-//                                        Toast.LENGTH_SHORT).show();
-
+                                deleteProgressDialog = new ProgressDialog(context);
+                                deleteProgressDialog.setTitle("Deleting project " +
+                                        projects.get(position).getProjectName() + "....");
+                                deleteProgressDialog.show();
+                                ProjectDocument projectDocument = new ProjectDocument();
+                                projectDocument.deleteProject(projects.get(position),
+                                        ProjectRecViewAdapter.this,
+                                        position,
+                                        deleteProgressDialog);
                             }
                         });
 
