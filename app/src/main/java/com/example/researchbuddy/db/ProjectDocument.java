@@ -78,6 +78,8 @@ public class ProjectDocument {
                         imageDocument.deleteImages(projectModel);
                         VideoDocument videoDocument = new VideoDocument();
                         videoDocument.deleteVideos(projectModel);
+                        FormDocument formDocument = new FormDocument();
+                        formDocument.deleteForms(projectModel);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
