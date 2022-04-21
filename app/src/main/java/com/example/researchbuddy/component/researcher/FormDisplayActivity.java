@@ -142,6 +142,8 @@ public class FormDisplayActivity extends AppCompatActivity {
 
                 btn_publish.setOnClickListener(view -> {
                     form.setPublished(true);
+                    form.setProjectId(project.getProjectId());
+//                    Log.d(TAG, " form id...." + form.getFormId() + " project id ...." + form.getProjectId());
                     FormDocument formDocument = new FormDocument();
                     formDocument.onCreateForm(form, this, true, btn_publish, btn_save, btn_home);
                 });
