@@ -107,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // todo: add error message in UI
                         Log.d(TAG, "get failed with ", e);
                     }
                 });

@@ -86,7 +86,6 @@ public class ProjectPageActivity extends AppCompatActivity {
             case R.id.action_add_modes:
                 dialogView = LayoutInflater.from(this)
                         .inflate(R.layout.activity_add_project_modes, null, false);
-//                todo : check existing modes in dialog check boxes
                 launchUpdateModeDialog();
             default:
                 return super.onOptionsItemSelected(item);

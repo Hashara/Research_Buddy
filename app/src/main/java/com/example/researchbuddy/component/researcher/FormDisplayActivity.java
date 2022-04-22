@@ -167,7 +167,6 @@ public class FormDisplayActivity extends AppCompatActivity {
                 });
 
                 btn_download.setOnClickListener(view -> {
-                    // todo: download responses
                     FileService fileService = new FileService();
                     try {
                         fileService.exportEmailInCSV(this,
