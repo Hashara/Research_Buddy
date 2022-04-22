@@ -298,14 +298,20 @@ public class FormDisplayActivity extends AppCompatActivity {
                                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                                     if (b) {
                                         // add to array
-                                        formItem.setTextAnswer(formItem.getTextAnswer() + ";" + check_box.getText().toString());
+                                        if (formItem.getTextAnswer() == null){
+                                            formItem.setTextAnswer(check_box.getText().toString());
+                                        }
+                                        else {
+                                            formItem.setTextAnswer(formItem.getTextAnswer() + ";" + check_box.getText().toString());
+                                        }
 
                                     } else {
                                         // remove from array
                                         ArrayList<String> userAnswers = new ArrayList<String>(Arrays.asList(formItem.getTextAnswer().split("\\s*;\\s*")));
                                         userAnswers.remove(check_box.getText().toString());
 
-                                        String s = ";";
+                                        String s = "";
+                                        Log.d(TAG + "user answers" ,userAnswers.toString());
 
                                         for (String answer :
                                                 userAnswers) {
