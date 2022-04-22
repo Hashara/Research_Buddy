@@ -28,7 +28,7 @@ public class ProjectModel implements Serializable {
         this.collectionTypes = collectionTypes;
     }
 
-    // todo: remove this
+
     public ProjectModel(String projectName) {
         this.projectName = projectName;
     }

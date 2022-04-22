@@ -305,11 +305,13 @@ public class FormDisplayActivity extends AppCompatActivity {
                                         ArrayList<String> userAnswers = new ArrayList<String>(Arrays.asList(formItem.getTextAnswer().split("\\s*;\\s*")));
                                         userAnswers.remove(check_box.getText().toString());
 
-                                        String s = "";
+                                        String s = ";";
 
                                         for (String answer :
                                                 userAnswers) {
-                                            s = s + answer + ";";
+                                            if (!answer.equals("null")){
+                                                s = s + answer + ";";
+                                            }
                                         }
 
                                         formItem.setTextAnswer(s);
